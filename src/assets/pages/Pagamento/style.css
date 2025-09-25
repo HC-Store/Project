@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* Header */
+header {
+  background-color: #000;     /* fundo preto */
+  padding: 10px 20px;         /* espaçamento interno */
+}
+/* Container do header */
+.container {
+  display: flex;              /* organiza em linha */
+  align-items: center;        /* centraliza verticalmente */
+  justify-content: space-between; /* espaço entre os itens */
+  max-width: 1200px;
+  margin: 0 auto;             /* centraliza na tela */
+}
+/* Input */
+input {
+  background-color: #fff;     /* fundo branco */
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 200px;               /* largura fixa */
+}
+/* Logo central */
+header .logo {
+  width: 159px;
+  height: 127px;             
+  display: block;
+  margin: 0 auto;
+}
+/* Ícones à direita */
+nav.icons {
+  display: flex;
+  align-items: center;
+  gap: 45px;                  /* espaçamento entre os ícones */
+}
+/* Links dos ícones */
+nav.icons a {
+  display: inline-block;
+}
+nav.icons a img {
+  width: 42px;                /* tamanho dos ícones */
+  height: auto;
+  transition: transform 0.2s, filter 0.3s;
+  cursor: pointer;
+}
+nav.icons a:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.3);
+}

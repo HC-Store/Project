@@ -1,0 +1,217 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header {
+  background-color: #000;     /* fundo preto */
+  padding: 10px 20px;         /* espaçamento interno */
+}
+/* Container do header */
+header .container {
+  display: flex;              /* organiza em linha */
+  align-items: center;        /* centraliza verticalmente */
+  justify-content: space-between; /* espaço entre os itens */
+  max-width: 1200px;
+  margin: 0 auto;             /* centraliza na tela */
+}
+/* Input */
+ header input {
+  background-color: #fff;     /* fundo branco */
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 200px;               /* largura fixa */
+}
+/* Logo central */
+.logo {
+  width: 159px;
+  height: 127px;             
+  display: block;
+  margin: 0 auto;
+}
+/* Ícones à direita */
+nav.icons  {
+  display: flex;
+  align-items: center;
+  gap: 45px;                  /* espaçamento entre os ícones */
+}
+/* Links dos ícones */
+nav.icons a {
+  display: inline-block;
+}
+nav.icons a img {
+  width: 42px;                /* tamanho dos ícones */
+  height: auto;
+  transition: transform 0.2s, filter 0.3s;
+  cursor: pointer;
+}
+nav.icons a:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.3);
+}
+.banner img{
+    width: 100%;
+    height: 800px;
+    margin-top: -187px;
+
+}
+/* Caixa do filtro */
+.menuLateral {
+  width: 250px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+}
+/* Seções do filtro */
+.menuLateral h2 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+.menuLateral h3 {
+  font-size: 14px;
+  margin: 15px 0 8px;
+}
+/* Botões de tamanho */
+.tamanhos {
+  
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tamanhos button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: black;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  transition: all 0.2s;
+}
+.tamanhos button:hover {
+  background: #DDB45E;
+  color: #fff;
+}
+/* Cores (quadradinhos) */
+.cores {
+  
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.cores span {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.cores span:hover {
+  transform: scale(1.1);
+}
+/* Checkboxes de estilo */
+.estilo label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.estilo input[type="checkbox"] {
+  margin-right: 8px;
+}
+/* Área principal */
+main {
+  margin-left: 280px; /* Espaço pro menu lateral */
+  padding: 20px;
+  margin-top: -900px;
+}
+
+main h1 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+main p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* Grid de produtos */
+.Produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.Produtos article {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.Produtos article img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.Produtos article h3 {
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+.Produtos article p {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.Produtos article button {
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.Produtos article button:hover {
+  background: #DDB45E;
+}
+/* Paginação */
+.MudarPagina {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 30px 0;
+}
+.MudarPagina a,
+.MudarPagina span {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  text-decoration: none;
+  color: #000;
+}
+.MudarPagina a:hover {
+  background: #000;
+  color: #fff;
+}
+.MudarPagina .active {
+  background: #000;
+  color: #fff;
+}

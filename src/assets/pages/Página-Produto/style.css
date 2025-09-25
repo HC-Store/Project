@@ -1,0 +1,198 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header */
+header {
+  background-color: #000;     /* fundo preto */
+  padding: 10px 20px;         /* espaçamento interno */
+}
+/* Container do header */
+header .container {
+  display: flex;              /* organiza em linha */
+  align-items: center;        /* centraliza verticalmente */
+  justify-content: space-between; /* espaço entre os itens */
+  max-width: 1200px;
+  margin: 0 auto;             /* centraliza na tela */
+}
+/* Input */
+header input {
+  background-color: #fff;     /* fundo branco */
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 200px;               /* largura fixa */
+}
+/* Logo central */
+header .logo {
+  width: 159px;
+  height: 127px;             
+  display: block;
+  margin: 0 auto;
+}
+/* Ícones à direita */
+nav.icons {
+  display: flex;
+  align-items: center;
+  gap: 45px;                  /* espaçamento entre os ícones */
+}
+/* Links dos ícones */
+nav.icons a {
+  display: inline-block;
+}
+nav.icons a img {
+  width: 42px;                /* tamanho dos ícones */
+  height: auto;
+  transition: transform 0.2s, filter 0.3s;
+  cursor: pointer;
+}
+nav.icons a:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.3);
+}
+section {
+  padding: 20px 60px;
+}
+h2, h3, h4 {
+  margin-bottom: 10px;
+}
+button {
+ cursor: pointer;
+ border: none;
+ padding: 10px 16px;
+ margin: 8px 5px;
+ border-radius: 6px;
+ font-weight: bold;
+ transition: 0.3s;
+}
+
+/* ====== CONTAINER PRINCIPAL PRODUTO ====== */
+.produto {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 60px;
+  margin-top: 40px;
+}
+.produto img {
+  max-width: 400px;
+  border-radius: 8px;
+}
+.detalhes {
+ max-width: 400px;
+}
+.detalhes h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+.detalhes p strong {
+  font-size: 26px;
+  color: #111;
+}
+/* ====== Seleção de Cor e Tamanho ====== */
+.detalhes label {
+  display: inline-block;
+  margin: 5px 12px 5px 0;
+  font-size: 15px;
+}
+.detalhes input {
+  margin-right: 6px;
+}
+/* ====== Botões Compra ====== */
+.detalhes button:nth-of-type(1) {
+  background: #111;
+  color: #fff;
+}
+.detalhes button:nth-of-type(1):hover {
+  background: #333;
+}
+.detalhes button:nth-of-type(2) {
+  background: #eee;
+  padding: 10px;
+}
+.detalhes button:nth-of-type(3) {
+  background: black;
+  color: #fff;
+}
+.detalhes button:nth-of-type(3):hover {
+  background: black;
+}
+
+/* ====== GALERIA MINIATURAS ====== */
+.galeria {
+  margin-top: 30px;
+  padding: 0 60px;
+}
+.galeria h3 {
+  margin-bottom: 15px;
+}
+.galeria article {
+ display: inline-block;
+ margin-right: 12px;
+}
+.galeria img {
+ width: 90px;
+ height: auto;
+ border: 1px solid #ccc;
+ border-radius: 6px;
+ cursor: pointer;
+ transition: 0.3s;
+}
+.galeria img:hover {
+ border-color: #111;
+}
+
+/* ====== PRODUTOS RELACIONADOS ====== */
+.relacionados h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+.relacionados div {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+.relacionados article {
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+  transition: 0.3s;
+}
+.relacionados article:hover {
+  box-shadow: 0px 3px 10px rgba(0,0,0,0.15);
+}
+.relacionados img {
+  width: 100%;
+  max-height: 180px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+.relacionados h4 {
+  font-size: 15px;
+  margin: 10px 0;
+}
+.relacionados p {
+  color: #111;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.relacionados button {
+  background: #111;
+  color: #fff;
+  font-size: 13px;
+}
+.relacionados button:hover {
+  background: #333;
+}
+
+/* ====== BANNER FINAL ====== */
+
+.banner img {
+  width: 100%;
+  margin-top: 30px;
+  border-radius: 10px;
+}
