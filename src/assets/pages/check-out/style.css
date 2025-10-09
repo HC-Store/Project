@@ -165,3 +165,121 @@ button:hover {
 .desconto input {
   flex: 1;
 }
+/* Footer */
+/* Benefícios */
+.beneficios-container{
+display: flex;
+justify-content: center;
+gap: var(--gap-grande);
+padding: 20px;
+background: #D9D9D9;
+}
+
+.beneficio{
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.beneficio img{
+width: 40px;
+height: 40px;
+object-fit: contain;
+}
+
+.beneficio .texto{
+display: flex;
+flex-direction: column;
+line-height: 1.2;
+}
+
+.beneficio strong{
+font-size: var(--font-sm);
+font-weight: bold;
+}
+
+.beneficio span{
+font-size: var(--font-xs);
+}
+
+/* Navegação */
+.segunda-part{
+display: flex;
+background: #D9D9D9;
+justify-content: center;
+align-items: flex-start;
+flex-wrap: wrap;
+gap: var(--gap-grande);
+padding: 40px 20px;
+}
+
+.segunda-part nav {
+display: flex;
+flex-direction: column;
+min-width: 180px;
+}
+
+.text {
+font-weight: bold;
+font-size: var(--font-md);
+margin-bottom: 20px;
+margin: 15px;
+}
+
+.link {
+color: var(--cor-texto);
+text-decoration: none;
+margin: 15px;
+font-size: var(--font-sm);
+}
+
+.link:hover{
+text-decoration: none;
+color: darkgoldenrod;
+}
+
+/* Ícones sociais */
+.social-icons{
+display: flex;
+gap: 10px;
+margin-top: 10px;
+}
+
+.social-icons img {
+width: 24px;
+height: 24px;
+}
+
+/* Rodapé final */
+.rodape-final{
+display: flex;
+background: #D9D9D9;
+flex-direction: column;
+align-items: center;
+gap: 20px;
+padding: 30px 20px;
+}
+
+.pagamento img {
+width: 250px;
+height: auto;
+justify-content: center;
+display: flex;
+}
+
+.app {
+display: flex;
+align-items: center;
+gap: 10px;
+text-align: left;
+}
+
+.app img{
+width: 60px;
+height: auto;
+}
+
+.descricao-app{
+font-size: var(--font-sm);
+color: var(--cor-texto);
+}

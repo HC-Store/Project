@@ -1,0 +1,607 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+header {
+  background-color: #000;     /* fundo preto */
+  padding: 10px 20px;         /* espaçamento interno */
+}
+/* Container do header */
+header .container {
+  display: flex;              /* organiza em linha */
+  align-items: center;        /* centraliza verticalmente */
+  justify-content: space-between; /* espaço entre os itens */
+  max-width: 1200px;
+  margin: 0 auto;             /* centraliza na tela */
+}
+/* Input */
+ header input {
+  background-color: #fff;     /* fundo branco */
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 200px;               /* largura fixa */
+}
+/* Logo central */
+.logo {
+  width: 159px;
+  height: 127px;             
+  display: block;
+  margin: 0 auto;
+}
+/* Ícones à direita */
+nav.icons  {
+  display: flex;
+  align-items: center;
+  gap: 45px;                  /* espaçamento entre os ícones */
+}
+/* Links dos ícones */
+nav.icons a {
+  display: inline-block;
+}
+nav.icons a img {
+  width: 42px;                /* tamanho dos ícones */
+  height: auto;
+  transition: transform 0.2s, filter 0.3s;
+  cursor: pointer;
+}
+nav.icons a:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.3);
+}
+.menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;                    /* espaço entre itens */
+
+}
+
+.menu ul li a {
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  transition: color .2s ease;
+}
+
+.menu ul li a:hover {
+  color: #DAA520;              /* dourado no hover */
+}
+
+/* Faixa Promocional */
+.promo-bar {
+  background: white;
+  color: black;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 0;
+  overflow: hidden;             /* esconde o texto que sai da tela */
+  white-space: nowrap;
+  position: relative;
+}
+
+/* Animação do texto rolando */
+.promo-text {
+  display: inline-block;
+  padding-left: 100%;           /* começa fora da tela */
+  animation: scrollText 20s linear infinite;
+}
+
+@keyframes scrollText {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+/* CARROSSEL */
+.carousel {
+    position: relative;
+    width: 100%;      /* ocupa 100% da tela */
+    margin: 0;
+    overflow: hidden;
+    border-radius: 12px; 
+}
+
+.carousel-track {
+    display: flex;
+    height: auto;
+    transform: translateX(0%);
+    transition: transform 600ms ease;
+}
+
+.carousel-item {
+    flex: 0 0 100%; /* cada slide ocupa 100% da largura */
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    object-fit:contain ;
+    display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carousel-track { transition: none; }
+}
+/* Container principal */
+.carousel.marcas {
+  width: 100%;
+  margin: 40px auto;
+  text-align: center;
+}
+
+.carousel.marcas h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Track que segura o nav */
+.carousel.marcas .carousel-track {
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Nav com logos */
+.carousel.marcas nav {
+  display: flex;
+  gap: 40px; /* espaço entre logos */
+  justify-content: center;
+  align-items: center;
+  transition: none;
+  will-change: transform;
+}
+
+/* Links com imagens */
+.carousel.marcas nav a {
+  flex: 0 0 auto;
+}
+
+.carousel.marcas nav img {
+  height: 188px;
+  width: 300px;
+  transition: transform 0.3s ease;
+}
+
+.carousel.marcas nav img:hover {
+  transform: scale(1.1);
+}
+.carousel.marcas .carousel-track {overflow: hidden;width: 100%;}
+.carousel.marcas .carousel-track nav{
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    flex-wrap: nowrap;   /* evita qebra de linha */
+    will-change: transform;
+    transition: none !important;
+}
+/* --------- TÍTULO --------- */
+.carousel.produtos h2{
+ text-align:center;
+ margin:24px 0 16px;
+ font-weight:800;
+}
+
+/* --------- VIEWPORT/TRILHO --------- */
+.carousel-viewport{
+ overflow:hidden;
+ width:100%;
+}
+
+.product-list{
+ display:flex;
+ gap:24px;
+ padding:8px 8px 16px;
+ margin:0;
+ list-style:none;
+ /* se quiser navegação manual por rolagem */
+ scroll-snap-type:x mandatory;
+ overscroll-behavior-x:contain;
+}
+
+/* --------- CARD --------- */
+.product-card{
+ flex:0 0 260px; /* largura de cada card */
+ border:1px solid #ddd;
+ border-radius:8px;
+ padding:12px;
+ background:#fff;
+ position:relative;
+ scroll-snap-align:start;  /* encaixa nas “paradas” do carrossel */
+}
+
+/* --------- FAVORITO --------- */
+.product-card .fav {
+ position:absolute; 
+ top:8px; 
+ right:8px;
+ background: none;   /* remove fundo cinza */
+ width:auto; 
+ height:auto;
+ border:0; 
+ cursor:pointer; 
+ font-size:20px; 
+ color:#444;
+ transition: color 0.3s ease;
+}
+.product-card .fav.active {
+ color: red;
+}
+
+.product-card .thumb{
+ display:block; 
+ width:100%; 
+ height:180px;
+ overflow:hidden; 
+ border-radius:6px; 
+ margin-bottom:10px;
+}
+.product-card .thumb img{
+ width:100%; 
+ height:100%; 
+ object-fit:cover; 
+ display:block;
+}
+
+.product-card .title{
+ font-size:.92rem; 
+ font-weight:700; 
+ text-align:center; 
+ margin:6px 0;
+}
+.product-card .price{
+ display:block; 
+ text-align:center; 
+ margin-bottom:10px;
+}
+.product-card .btn{
+ display:block; 
+ width:100%; 
+ height:38px;
+ border:0; 
+ border-radius:999px;
+ background:#111; 
+ color:#fff; 
+ font-weight:700; 
+ cursor:pointer;
+}
+.product-card .btn:hover{
+    background: #DAA520;
+}
+
+/* --------- RESPONSIVO --------- */
+@media (max-width:1024px){
+ .product-card{ flex-basis:240px; }
+}
+@media (max-width:768px){
+ .product-card{ flex-basis:75vw; } /* 1 por tela no mobile */
+}
+/* --------- CONTROLES LATERAIS --------- */
+.carousel-viewport {
+ position: relative; /* para posicionar botões dentro */
+}
+
+.carousel-viewport .prev,
+.carousel-viewport .next {
+ position: absolute;
+ top: 50%;
+ transform: translateY(-50%);
+ background: rgba(0,0,0,0.6);
+ color: #fff;
+ border: none;
+ padding: 10px 14px;
+ border-radius: 50%;
+ cursor: pointer;
+ font-size: 22px;
+ font-weight: bold;
+ transition: background 0.3s;
+ z-index: 10;
+}
+.carousel-viewport .prev:hover,
+.carousel-viewport .next:hover {
+ background: #DAA520;
+}
+.carousel-viewport .prev {
+ left: 8px;
+}
+.carousel-viewport .next {
+ right: 8px;
+}
+/* Banner Acessorio */
+.acess-bloco { 
+max-width: 1100px; 
+margin: 55px auto 135px auto; /* <-- ajuste de margem */ 
+padding: 24px 16px; 
+display: flex; 
+align-items: center; 
+gap: 24px; 
+} 
+.acess-img { 
+width: 340px; 
+max-width: 40%; 
+border-radius: 14px; 
+display: block; 
+} 
+.acess-txt { 
+color: #0f0f12; 
+} 
+.acess-titulo { 
+font-family: 'Montserrat', sans-serif; 
+font-weight: 800; 
+font-size: 64px; 
+line-height: 1.05; 
+margin: 0 0 12px; 
+} 
+.acess-sub { 
+font-family: 'Inter', sans-serif; 
+font-weight: 600; 
+font-size: 40px; 
+line-height: 1.3; 
+color: #5c616b; 
+margin: 0 0 16px; 
+} 
+.acess-btn { 
+display: inline-block; 
+padding: 12px 22px; 
+border-radius: 10px; 
+background: #121418; 
+color: #fff; 
+text-decoration: none; 
+font-family: 'Inter', sans-serif; 
+font-weight: 600; 
+} 
+
+.acess-btn:hover{
+    background: #DAA520;
+}
+ /* @media (max-width: 820px) { 
+
+.acess-bloco { 
+flex-direction: column; 
+text-align: center; 
+} 
+.acess-img { 
+width: 534px;
+height: 512px; 
+} 
+.acess-titulo { 
+font-size: 42px; 
+} 
+.acess-sub { 
+font-size: 22px; 
+} }  */
+
+/* Carressol ultimo */
+.carrossel-look {
+  width: 100%;
+  margin: 30px auto;
+  text-align: center;
+  overflow: hidden;
+}
+
+.carrossel-look h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.carrossel-container1 {
+  width: 100%;
+  overflow: hidden;
+}
+
+.carrossel-track1 {
+  display: flex;
+  gap: 20px;
+  animation: scroll 20s linear infinite; /* animação automática */
+}
+
+.item {
+  min-width: 250px; /* tamanho de cada item */
+  flex-shrink: 0;
+}
+
+.item img {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Animação para loop infinito */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%); /* metade do conteúdo, duplicamos via JS */
+  }
+}
+
+
+
+/* banner final */
+/* Container */
+.essencia-bloco {
+  margin: 80px auto;
+  padding: 24px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1200px;
+}
+
+/* Imagem */
+.essencia-img {
+  width: 360px;
+  max-width: 45%;
+  border-radius: 14px;
+  display: block;
+  object-fit: cover;
+}
+
+/* Texto */
+.essencia-texto {
+  color: #0f0f12;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+   letter-spacing: 4px;
+}
+
+.essencia-titulo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 54px;
+  line-height: 1.1;
+  margin: 0 0 24px;
+  letter-spacing: 4px;      /* <<< espaçamento entre letras */
+  text-align: left;
+  position: relative;
+  left: -75px;              /* <<< empurra o texto para dentro da imagem */
+}
+
+
+.essencia-btn {
+  background: #101113;
+  color: #fff;
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 14px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.3s ease;
+}
+
+.essencia-btn:hover {
+  background: #DAA520;
+}
+
+/* Footer */
+/* Benefícios */
+.beneficios-container{
+display: flex;
+justify-content: center;
+gap: var(--gap-grande);
+padding: 20px;
+background: #D9D9D9;
+}
+
+.beneficio{
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.beneficio img{
+width: 40px;
+height: 40px;
+object-fit: contain;
+}
+
+.beneficio .texto{
+display: flex;
+flex-direction: column;
+line-height: 1.2;
+}
+
+.beneficio strong{
+font-size: var(--font-sm);
+font-weight: bold;
+}
+
+.beneficio span{
+font-size: var(--font-xs);
+}
+
+/* Navegação */
+.segunda-part{
+display: flex;
+background: #D9D9D9;
+justify-content: center;
+align-items: flex-start;
+flex-wrap: wrap;
+gap: var(--gap-grande);
+padding: 40px 20px;
+}
+
+.segunda-part nav {
+display: flex;
+flex-direction: column;
+min-width: 180px;
+}
+
+.text {
+font-weight: bold;
+font-size: var(--font-md);
+margin-bottom: 20px;
+margin: 15px;
+}
+
+.link {
+color: var(--cor-texto);
+text-decoration: none;
+margin: 15px;
+font-size: var(--font-sm);
+}
+
+.link:hover{
+text-decoration: none;
+color: darkgoldenrod;
+}
+
+/* Ícones sociais */
+.social-icons{
+display: flex;
+gap: 10px;
+margin-top: 10px;
+}
+
+.social-icons img {
+width: 24px;
+height: 24px;
+}
+
+/* Rodapé final */
+.rodape-final{
+display: flex;
+background: #D9D9D9;
+flex-direction: column;
+align-items: center;
+gap: 20px;
+padding: 30px 20px;
+}
+
+.pagamento img {
+width: 250px;
+height: auto;
+justify-content: center;
+display: flex;
+}
+
+.app {
+display: flex;
+align-items: center;
+gap: 10px;
+text-align: left;
+}
+
+
+.app img{
+width: 60px;
+height: auto;
+}
+
+.descricao-app{
+font-size: var(--font-sm);
+color: var(--cor-texto);
+}

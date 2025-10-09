@@ -1,0 +1,76 @@
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: "Arial", sans-serif;
+}
+
+.login-container {
+ text-align: center;
+}
+
+.login {
+ background-color: #000;
+ color: #fff;
+ padding: 40px;
+ width: 300px;
+ border-radius: 6px;
+ display: flex;
+ flex-direction: column;
+ align-items: stretch;
+}
+.login-card label {
+ font-size: 12px;
+ text-align: left;
+ display: block;
+ margin-bottom: 8px;
+ letter-spacing: 1px;
+}
+input {
+  background: transparent;
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 8px 10px;
+  color: #d4af37;
+  font-size: 14px;
+}
+
+input::placeholder {
+  color: #d4af37;
+}
+
+
+
+.btn-entrar {
+ background-color: #d2a24c;
+ border: none;
+ padding: 10px 0;
+ color: #000;
+ font-weight: bold;
+ border-radius: 4px;
+ cursor: pointer;
+ transition: 0.3s ease;
+}
+
+.btn-entrar:hover {
+ background-color: black;
+}
+
+.links {
+ margin-top: 20px;
+ display: flex;
+ flex-direction: column;
+ gap: 5px;
+ text-align: left;
+}
+
+.links a {
+ color: #fff;
+ font-size: 10px;
+ text-decoration: none;
+ letter-spacing: 0.5px;
+}
+
+.links a:hover {
+ text-decoration: underline;
+}

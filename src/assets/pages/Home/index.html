@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/src/assets/pages/Home/style.css">
+    <script src="./carrosel.js" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+        <input type="text" placeholder="O que você deseja ?">
+        <img src="/src/assets/image/logo da loja.svg" alt="logo loja">
+        <nav class="icons">
+            <a href=""><img src="/src/assets/image/Coração.svg" alt="coraçao"></a>
+            <a href=""><img src="/src/assets/image/Sacola.svg" alt="Sacola"></a>
+            <a href=""><img src="/src/assets/image/Login.svg" alt="login"></a>
+        </nav>
+        </div>
+     <nav class="menu">
+        <ul>
+          <li><a href="#">Acessórios</a></li>
+          <li><a href="#">Calçados</a></li>
+          <li><a href="#">Perfumes</a></li>
+          <li><a href="#">Roupas</a></li>
+          <li><a href="#">Moda Casual</a></li>
+          <li><a href="#">Moda Íntima</a></li>
+          <li><a href="#">Ofertas</a></li>
+        </ul>
+      </nav>
+    </header>
+    <!-- Faixa Promocional -->
+<div class="promo-bar">
+  <div class="promo-text">
+    15% OFF - CUPOM: PRIMEIRA15 - 15% OFF - CUPOM: PRIMEIRA15 -  15% OFF - CUPOM: PRIMEIRA15 - 15% OFF - CUPOM: PRIMEIRA15 -
+    15% OFF - CUPOM: PRIMEIRA15 - 15% OFF - CUPOM: PRIMEIRA15 -  15% OFF - CUPOM: PRIMEIRA15 - 15% OFF - CUPOM: PRIMEIRA15 -
+  </div>
+</div>
+    <!-- BANNER CARROSSEL -->
+  <section class="carousel" id="bannerCarousel">
+    <div class="carousel-track data-interval=400">
+      <div class="carousel-item active">
+        <img src="/src/assets/image/banner1.svg" alt="Banner 1">
+      </div>
+      <div class="carousel-item">
+        <img src="/src/assets/image/banner2.svg" alt="Banner 2">
+      </div>
+      <div class="carousel-item">
+        <img src="" alt="Banner 3">
+      </div>
+    </div>
+</section>
+
+  <!-- MARCAS -->
+  <section class="carousel marcas" id="marcasCarousel">
+    <h2>Navegação por Marcas</h2>
+    <div class="carousel-track">
+      <nav>
+        <a href=""><img src="/src/assets/image/nike.svg" alt=""></a>
+        <a href=""><img src="/src/assets/image/puma.svg" alt=""></a>
+        <a href=""><img src="/src/assets/image/adidas.svg" alt=""></a>
+        <a href=""><img src="/src/assets/image/LV.svg" alt=""></a>
+        <a href=""><img src="/src/assets/image/lacoste.svg" alt=""></a>
+        <a href=""><img src="/src/assets/image/gucci.svg" alt=""></a>
+        <a href=""><img src="/src/assets/image/New Balance.svg" alt=""></a>
+        <a href=""><img src="/src/assets/image/balenciaga.svg" alt=""></a>
+        <a href=""><img src="/src/assets/image/EA7.svg" alt=""></a>
+      </nav>
+    </div>
+</section>
+
+<!-- BEST SELLERS (Carrossel) -->
+<section class="carousel produtos" id="bestSellersCarousel">
+ <h2>Best Sellers</h2>
+
+ <!-- Janela visível do carrossel -->
+ <div class="carousel-viewport" aria-label="Carrossel de produtos">
+ <!-- Trilho dos cards -->
+ <ul class="product-list">
+ <!-- CARD 1 -->
+ <li class="product-card">
+ <button class="fav" aria-label="Favoritar">♥</button>
+ <a href="#" class="thumb">
+ <img src="" alt="Moletom Nike preto">
+ </a>
+ <h3 class="title">MOLETOM NIKE</h3>
+ <strong class="price">R$ 189,99</strong>
+ <button class="btn">Adicionar ao Carrinho</button>
+ </li>
+
+ <!-- CARD 2 -->
+ <li class="product-card">
+ <button class="fav" aria-label="Favoritar">♥</button>
+ <a href="#" class="thumb">
+ <img src="" alt="Calça azul">
+ </a>
+ <h3 class="title">CALÇA NIKE</h3>
+ <strong class="price">R$ 209,99</strong>
+ <button class="btn">Adicionar ao Carrinho</button>
+ </li>
+
+ <!-- CARD 3 -->
+ <li class="product-card">
+ <button class="fav" aria-label="Favoritar">♥</button>
+ <a href="#" class="thumb">
+ <img src="" alt="Camiseta preta">
+ </a>
+ <h3 class="title">CAMISETA NIKE</h3>
+ <strong class="price">R$ 99,90</strong>
+ <button class="btn">Adicionar ao Carrinho</button>
+ </li>
+
+ <!-- CARD 4 -->
+ <li class="product-card">
+ <button class="fav" aria-label="Favoritar">♥</button>
+ <a href="#" class="thumb">
+ <img src="" alt="Shorts esportivo">
+ </a>
+ <h3 class="title">SHORTS NIKE</h3>
+ <strong class="price">R$ 120,00</strong>
+ <button class="btn">Adicionar ao Carrinho</button>
+ </li>
+
+<!-- CARD 5 -->
+ <li class="product-card">
+ <button class="fav" aria-label="Favoritar">♥</button>
+ <a href="#" class="thumb">
+ <img src="" alt="Tênis branco">
+ </a>
+ <h3 class="title">TÊNIS NIKE</h3>
+ <strong class="price">R$ 349,90</strong>
+ <button class="btn">Adicionar ao Carrinho</button>
+ </li>
+ 
+ 
+ <!-- Card 6 -->
+ <li class="product-card">
+ <button class="fav" aria-label="Favoritar">♥</button>
+ <a href="#" class="thumb">
+ <img src="" alt="Tênis branco">
+ </a>
+ <h3 class="title">TÊNIS NIKE</h3>
+ <strong class="price">R$ 349,90</strong>
+ <button class="btn">Adicionar ao Carrinho</button>
+ </li>
+ </ul>
+  <!-- Botões de navegação nas laterais -->
+  <button class="prev" aria-label="Anterior">‹</button>
+  <button class="next" aria-label="Próximo">›</button>
+</div>
+ </div>
+</section>
+
+<!-- Banner Acessorios -->
+<section class="acess-bloco">
+ <img class="acess-img" src="/src/assets/image/banner-acessorio.svg" alt="Acessórios sobre fundo escuro">
+
+ <div class="acess-txt">
+ <h1 class="acess-titulo">
+    O UNIVERSO<br>
+    DOS<br>
+    ACESSÓRIOS
+</h1>
+<p class="acess-sub">
+  Peças atemporais e modernas que<br>
+  definem a sua identidade.
+</p>
+ 
+<button  class="acess-btn"> Ver Produtos </button>
+
+</div>
+</section>
+<!--Ultimo Carrossel-->
+<section class="carrossel-look">
+  <h2>Complete o Seu Look</h2>
+  <div class="carrossel-container1">
+
+    <div class="carrossel-track1">
+      <div class="item">
+        <a href="#"><img src="/src/assets/image/bag.svg" alt="Bolsa"></a>
+      </div>
+      <div class="item">
+        <a href="#"><img src="/src/assets/image/relogio.svg" alt="Relógio"></a>
+      </div>
+      <div class="item">
+        <a href="#"><img src="/src/assets/image/shorts (2).svg" alt="Short"></a>
+      </div>
+      <div class="item">
+        <a href="#"><img src="/src/assets/image/sueter.svg" alt="Moletom"></a>
+      </div>
+      <div class="item">
+        <a href="#"><img src="/src/assets/image/tennis_NIkE.svg" alt="Tênis"></a>
+      </div>
+      <div class="item">
+        <a href="#"><img src="/src/assets/image/camiseta_puma.svg" alt="Camiseta"></a>
+      </div>
+      <div class="item">
+        <a href="#"><img src="/src/assets/image/conjunto (2).svg" alt="Conjunto"></a>
+      </div>
+    </div>
+  
+  </div>
+</section>
+
+
+<!-- banner final  -->
+ <section class="essencia-bloco">
+  <img class="essencia-img" src="/src/assets/image/banner3.svg" alt="essencia">
+  
+  <div class="essencia-texto">
+    <h1 class="essencia-titulo">
+      VISTA O <br>
+      QUE <br> 
+      COMBINA <br>
+      COM A <br> 
+      SUA <br>
+      ESSÊNCIA.
+    </h1>
+    <button class="essencia-btn">Ver Produtos</button>
+  </div>
+</section>
+
+<footer>
+    <!-- Benefícios -->
+<div class="beneficios-container">
+<div class="beneficio">
+<img src="./image/relogio-frete.svg"alt="Entrega">
+<div class="texto">
+<strong>Entrega expressa</strong>
+<span>a partir de 1 dia útil</span>
+</div>
+</div>
+
+<div class="beneficio">
+<img src=""alt="Parcelamento">
+<div class="texto">
+<strong>Parcele em até 10x</strong>
+<span>sem juros</span>
+</div>
+</div>
+</div>
+
+<!-- Seções -->
+<div class="segunda-part">
+<nav>
+<h2 class="text">Ajuda</h2>
+<a class="link" href="#">Trocas e Devoluções</a>
+<a class="link" href="#">Entregas</a>
+<a class="link" href="#">Minha Conta</a>
+<a class="link" href="#">Meus Pedidos</a>
+<a class="link" href="#">Pagamentos</a>
+<a class="link"href="#">Cancelamentos</a>
+</nav>
+
+<nav>
+<h2 class="text">Institucional</h2>
+<a class="link" href="#">Sobre a Hc Store</a>
+<a class="link" href="#">Nossa Loja</a>
+<a class="link" href="#">Termos de Uso</a>
+<a class="link"href="#">Privacidade</a>
+</nav>
+
+<nav>
+<h2 class="text">Políticas</h2>
+<a class="link"href="#">Regulamentos</a>
+<a class="link" href="#">Política de Privacidade</a>
+<a class="link" href="#">Segurança & Privacidade</a>
+</nav>
+
+<nav>
+<h2 class="text">Central de Relacionamento</h2>
+<a class="link" href="#">Tire suas dúvidas</a>
+</nav>
+
+<nav>
+<h2 class="text">Fique por dentro das novidades</h2>
+<div class="social-icons">
+<a href="#"><img src="" alt="WhatsApp"></a>
+<a href="#"><img src="" alt="Facebook"></a>
+<a href="#"><img src="" alt="Instagram"></a>
+<a href="#"><img src="" alt="TikTok"></a>
+</div>
+</nav>
+</div>
+
+<!-- Pagamento e App -->
+<div class="rodape-final">
+<div class="pagamento">
+<img src="" alt="Formas de pagamento">
+</div>
+</footer>
+
+</body>
+</html>
