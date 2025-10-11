@@ -1,0 +1,210 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  font-family: "Poppins", Arial, sans-serif;
+  background: #f5f5f5;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidebar-top {
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.sidebar-top img {
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+.sidebar-menu {
+  background: #fff;
+  flex: 1;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.sidebar-menu button {
+  width: 220px;
+  height: 48px;
+  border-radius: 10px;
+  background: black;
+  text-align: left;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+.sidebar-menu button:hover {
+  background: #DAA520
+}
+
+/* === TOPO === */
+.topbar {
+  background: #000;
+  height: 60px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 30px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 20px 30px;
+}
+
+/* === LAYOUT PRINCIPAL === */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.painel-cards {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  padding: 0 30px;
+}
+.grafico canvas {
+  max-width: 400px;  /* 🔸 diminui a largura */
+  max-height: 400px; /* 🔸 diminui a altura */
+}
+
+
+/* === CARDS === */
+.card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.mais-vendidos {
+  background: #f5f5f5;
+}
+
+.mais-vendidos ul {
+  list-style: none;
+  margin-top: 10px;
+}
+
+.mais-vendidos li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.mais-vendidos li img {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.mais-vendidos li span {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.relatorio {
+  background: #DAA520;
+  color: #000;
+  border: none;
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 10px;
+}
+
+/* === GRÁFICO LINHA === */
+.grafico-linha {
+  background: #fff;
+  margin: 20px 30px;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* === PEDIDOS === */
+.pedidos {
+  margin: 0 30px 30px 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f0f0f0;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+.status {
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.status.entregue {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.enviado {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 900px) {
+  .painel-cards {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    width: 60px;
+  }
+  .sidebar-menu button {
+    font-size: 0;
+  }
+}
+

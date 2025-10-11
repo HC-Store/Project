@@ -1,0 +1,264 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  font-family: "Poppins", Arial, sans-serif;
+  background: #f5f5f5;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.sidebar-top {
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.sidebar-top img {
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+.sidebar-menu {
+  background: #fff;
+  flex: 1;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.sidebar-menu button {
+  width: 220px;
+  height: 48px;
+  border-radius: 10px;
+  background: black;
+  text-align: left;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+.sidebar-menu button:hover {
+  background: #DAA520
+}
+
+/* === TOPO === */
+.topbar {
+  background: #000;
+  width: 1130px;
+  height: 60px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 30px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.page-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 20px 30px;
+}
+/* ate aqui */
+
+/* ===== TOPO ===== */
+.produtos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px 0;
+}
+
+.produtos-header h1 {
+  font-size: 1.5rem;
+}
+
+.breadcrumb {
+  color: #777;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.add-produto {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-produto:hover {
+  background: #DAA520;
+  color: #000;
+}
+
+/* ===== GRADE ===== */
+.produtos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 20px 40px;
+}
+
+/* ===== CARD ===== */
+.produto-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+  transition: transform 0.2s ease;
+}
+
+.produto-card:hover {
+  transform: translateY(-4px);
+}
+
+.produto-card img {
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.produto-card h2 {
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.tipo {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.preco {
+  font-weight: 600;
+  color: #000;
+  margin: 8px 0;
+}
+
+.descricao {
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+/* ===== INFO ===== */
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+.info span {
+  display: flex;
+  justify-content: space-between;
+  color: #444;
+}
+
+.info strong {
+  color: #000;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+  .produtos-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .add-produto {
+    align-self: flex-end;
+  }
+}
+/* ===== PAGINAÇÃO ===== */
+.paginacao {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 40px;
+  gap: 6px;
+}
+
+.paginacao button {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.paginacao .ativo {
+  background: #000;
+  color: #fff;
+}
+/* Categorias */
+.lista-categorias {
+  display: none; /* 🔸 Esconde a lista inicialmente */
+}
+.lista-categorias.ativo {
+  display: block; /* 🔸 Mostra quando a classe "ativo" for adicionada via JS */
+}
+.lista-categorias {
+  list-style: none;
+  padding: 10px 20px;
+  background: #fff;
+}
+
+.lista-categorias li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f1f1f1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.lista-categorias li:hover {
+  color: #DAA520;
+}
+
+.badge {
+  background: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #000;
+  font-weight: 600;
+}
+
+.lista-categorias li:first-child .badge {
+  background: #000;
+  color: #fff;
+}

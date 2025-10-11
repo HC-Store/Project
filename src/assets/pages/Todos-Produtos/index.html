@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos os Produtos</title>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./categorias.js" defer></script>
+</head>
+<body>
+    <!-- Painel lateral -->
+  <aside class="sidebar">
+    <div class="sidebar-top">
+      <img src="/src/assets/image/logo da loja.svg" alt="Logo">
+    </div>
+    <nav class="sidebar-menu">
+      <button class="active">📊 Dashboard</button>
+      <button class="ativo"> Todos os Produtos</button>
+      <button class="ativo"> Categorias</button>
+      <ul class="lista-categorias">
+      <li>Tênis <span class="badge">21</span></li>
+      <li>Camisetas <span class="badge">32</span></li>
+      <li>Calças <span class="badge">13</span></li>
+      <li>Shorts <span class="badge">14</span></li>
+      <li>Moletons <span class="badge">06</span></li>
+      <li>Conjuntos <span class="badge">07</span></li>
+      <li>Cuecas <span class="badge">11</span></li>
+      <li>Bonés <span class="badge">09</span></li>
+      <li>Chinelos <span class="badge">06</span></li>
+      <li>Óculos <span class="badge">10</span></li>
+      <li>Relógios <span class="badge">08</span></li>
+      </ul>
+      <button > Detalhes do Produto</button>
+      <button > Relatórios</button>
+    </nav>
+  </aside>
+
+  <!-- Área principal -->
+  <main class="main">
+    <!-- Header superior -->
+    <header class="topbar">
+      <div class="topbar-right">
+        <button class="icon-btn lupa" title="Buscar"><img src="" alt="lupa"></button>
+        <button class="icon-btn sino" title="Notificações"><img src="" alt="sino"></button>
+        <button class="icon-btn adm" title="Painel ADM"><img src="" alt="adm"></button>
+      </div>
+    </header>
+    <!-- ate aqui -->
+
+    <main class="main">
+    <div class="produtos-header">
+      <div>
+        <h1>Todas os Produtos</h1>
+        <p class="breadcrumb">Home > Todos os Produtos</p>
+      </div>
+      <button class="add-produto">ADD NOVO PRODUTO</button>
+    </div>
+
+    <section class="produtos-grid">
+      <!-- ===========================
+           Aqui você vai inserir o loop PHP
+           Exemplo:
+           <?php while($row = $result->fetch_assoc()): ?>
+             <article class="produto-card">
+               <img src="<?php echo $row['imagem']; ?>" alt="<?php echo $row['nome']; ?>">
+               <h2><?php echo $row['nome']; ?></h2>
+               <p class="tipo"><?php echo $row['categoria']; ?></p>
+               <p class="preco">R$<?php echo $row['preco']; ?></p>
+               <p class="descricao"><?php echo $row['descricao']; ?></p>
+               <div class="info">
+                 <span>Vendas</span><strong><?php echo $row['vendas']; ?></strong>
+                 <span>Produtos restantes</span><strong><?php echo $row['estoque']; ?></strong>
+               </div>
+             </article>
+           <?php endwhile; ?>
+           ============================ -->
+
+      <!-- Exemplo visual (temporário) -->
+      <article class="produto-card">
+        <img src="https://via.placeholder.com/120" alt="Adidas Ultra Boost">
+        <h2>Adidas Ultra Boost</h2>
+        <p class="tipo">Tênis</p>
+        <p class="preco">R$610,40</p>
+        <p class="descricao">Corridas de longa distância exigem muito dos atletas.</p>
+        <div class="info">
+          <span>Vendas</span> <strong>1269</strong>
+          <span>Produtos restantes</span> <strong>1269</strong>
+        </div>
+      </article>
+
+      <article class="produto-card">
+        <img src="https://via.placeholder.com/120" alt="Adidas Ultra Boost">
+        <h2>Adidas Ultra Boost</h2>
+        <p class="tipo">Tênis</p>
+        <p class="preco">R$600,40</p>
+        <p class="descricao">Corridas de longa distância exigem muito dos atletas.</p>
+        <div class="info">
+          <span>Vendas</span> <strong>1269</strong>
+          <span>Produtos restantes</span> <strong>1269</strong>
+        </div>
+      </article>
+
+      <article class="produto-card">
+        <img src="https://via.placeholder.com/120" alt="Adidas Ultra Boost">
+        <h2>Adidas Ultra Boost</h2>
+        <p class="tipo">Tênis</p>
+        <p class="preco">R$800,40</p>
+        <p class="descricao">Corridas de longa distância exigem muito dos atletas.</p>
+        <div class="info">
+          <span>Vendas</span> <strong>1269</strong>
+          <span>Produtos restantes</span> <strong>1269</strong>
+        </div>
+      </article>
+    </section>
+     <!-- Paginação -->
+  <div class="paginacao">
+    <button>&laquo;</button>
+    <button class="ativo">1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>...</button>
+    <button>Próximo &raquo;</button>
+  </div>
+  </main>
+
+  
+</body>
+</html>
