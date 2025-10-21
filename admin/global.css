@@ -1,0 +1,393 @@
+/* === GERAL === */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+/* === SIDEBAR === */
+.sidebar {
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.sidebar-top {
+  background: #000;
+  color: #fff;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.sidebar-top img {
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+.sidebar-menu {
+  background: #fff;
+  flex: 1;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.sidebar-menu button {
+  width: 90%;
+  height: 48px;
+  border-radius: 10px;
+  background: #000;
+  text-align: left;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 500;
+  color: white;
+  transition: background 0.2s ease;
+  border: none;
+}
+
+.sidebar-menu button:hover,
+.sidebar-menu button.active {
+  background: #daa520;
+  color: #000;
+}
+
+/* === SUBMENU (CATEGORIAS) === */
+.submenu {
+  display: none;
+  flex-direction: column;
+  background: #f5f5f5;
+  margin-top: 4px;
+  width: 90%;
+  border-radius: 6px;
+  padding: 6px 0;
+  list-style: none;
+}
+
+.submenu li {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #222;
+  transition: background 0.2s ease;
+}
+
+.submenu li:hover {
+  background: #e0e0e0;
+}
+
+/* Mostrar submenu quando ativo (via JS) */
+.submenu.open {
+  display: flex;
+}
+
+/* Ícone da seta */
+.categorias-btn::after {
+  content: "▾";
+  margin-left: 6px;
+}
+
+.categorias-btn.active::after {
+  content: "▴";
+  margin-left: 6px;
+}
+
+/* === HEADER / TOPBAR === */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 230px; /* largura da sidebar */
+  right: 0;
+  height: 64px;
+  background: #000;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 25px;
+  gap: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  z-index: 900;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.icon-btn img {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(1); /* visível no fundo preto */
+}
+
+.icon-btn:hover {
+  opacity: 0.7;
+}
+
+/* Botão ADMIN */
+.admin-btn {
+  background: #000;
+  color: #fff;
+  border: 1px solid #daa520;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.admin-btn:hover {
+  background: #daa520;
+  color: #000;
+}
+
+/* === CONTEÚDO PRINCIPAL (ÁREA DINÂMICA) === */
+#content {
+  margin-left: 230px;   /* espaço da sidebar */
+  margin-top: 64px;     /* altura do header */
+  padding-left: 24px;   /* leve respiro */
+  padding-right: 24px;
+  background: #f5f5f5;
+  flex: 1;
+  min-height: calc(100vh - 64px);
+  transition: all 0.3s ease;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 1024px) {
+  .topbar {
+    left: 0;
+    justify-content: space-between;
+    padding: 0 15px;
+  }
+
+  .sidebar {
+    position: fixed;
+    width: 200px;
+    left: -200px;
+    transition: left 0.3s ease;
+    z-index: 999;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  #content {
+    margin-left: 0;
+    margin-top: 64px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .icon-btn img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .admin-btn {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+}
+/* === DROPDOWNS (lupa, sino, admin) === */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  width: 260px;
+  padding: 12px;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: all 0.25s ease;
+  z-index: 9999;
+}
+
+.dropdown.active .dropdown-content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Cabeçalho dentro do dropdown */
+.dropdown-content h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #222;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+
+/* Itens */
+.dropdown-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-content li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px;
+  font-size: 0.85rem;
+  color: #333;
+  transition: background 0.2s ease;
+  border-radius: 6px;
+}
+
+.dropdown-content li:hover {
+  background: #f3f3f3;
+}
+
+.dropdown-content button {
+  background: #000;
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.dropdown-content button:hover {
+  background: #DAA520;
+  color: #000;
+}
+
+/* === NOTIFICAÇÕES === */
+#notif-dropdown ul li {
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+#notif-dropdown li img {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+#notif-dropdown li div {
+  flex: 1;
+}
+
+#notif-dropdown li .status {
+  font-size: 0.75rem;
+  background: #eee;
+  border-radius: 10px;
+  padding: 2px 6px;
+}
+
+#notif-dropdown .notif-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+#notif-dropdown .notif-buttons button {
+  background: #000;
+  color: #fff;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+#notif-dropdown .notif-buttons button:hover {
+  background: #DAA520;
+  color: #000;
+}
+
+/* === BOTÃO ADMIN ESPECIAL === */
+#btn-admin {
+  padding: 10px;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#btn-admin img {
+  width: 44px;
+
+}
+/* === MENU ADMIN (dropdown do admin) === */
+#admin-dropdown {
+  width: 200px;
+}
+
+#admin-dropdown li {
+  padding: 10px 12px;
+  justify-content: flex-start;
+  font-size: 0.9rem;
+}
+
+#admin-dropdown li img {
+  width: 18px;
+  height: 18px;
+}
+/* --- Corrige empilhamento e corte dos dropdowns no header --- */
+.topbar{
+  z-index: 9999;         /* header acima do resto */
+  overflow: visible;     /* permite o dropdown sair do header */
+}
+
+.topbar-right{
+  position: relative;    /* contexto pro absolute funcionar bem */
+  overflow: visible;
+}
+
+#content{
+  position: relative;    /* #content fica abaixo dos dropdowns */
+  z-index: 1;
+}
+
+.dropdown{
+  position: relative;
+  z-index: 10000;        /* dropdown acima do header */
+}
+
+.dropdown-content{
+  z-index: 10001;        /* conteúdo acima de tudo */
+}

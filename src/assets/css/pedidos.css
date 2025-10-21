@@ -1,0 +1,223 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+/* Categorias */
+.lista-categorias {
+  display: none; /* 🔸 Esconde a lista inicialmente */
+}
+.lista-categorias.ativo {
+  display: block; /* 🔸 Mostra quando a classe "ativo" for adicionada via JS */
+}
+.lista-categorias {
+  list-style: none;
+  padding: 10px 20px;
+  background: #fff;
+}
+
+.lista-categorias li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #f1f1f1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.lista-categorias li:hover {
+  color: #DAA520;
+}
+
+.badge {
+  background: #f0f0f0;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #000;
+  font-weight: 600;
+}
+
+.lista-categorias li:first-child .badge {
+  background: #000;
+  color: #fff;
+}
+/* ===== CABEÇALHO DA PÁGINA DE PEDIDOS ===== */
+.pedidos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px 10px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.pedidos-titulo h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.pedidos-titulo .breadcrumb {
+  color: #777;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+.pedidos-filtros {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.data-filtro {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #444;
+  background: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+.alterar-status {
+  background: #f5f5f5;
+  color: #000;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.alterar-status:hover {
+  background: #DAA520;
+  border-color: #DAA520;
+  color: #fff;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 768px) {
+  .pedidos-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pedidos-filtros {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+/* ===== DROPDOWN ===== */
+.dropdown-status {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-lista {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 110%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  list-style: none;
+  padding: 6px 0;
+  min-width: 160px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.dropdown-lista li {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdown-lista li:hover {
+  background: #DAA520;
+  color: #fff;
+}
+
+/* Quando estiver visível */
+.dropdown-status.ativo .dropdown-lista {
+  display: block;
+}
+/* === PEDIDOS === */
+.pedidos {
+  margin: 0 30px 30px 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #f0f0f0;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+  font-size: 0.9rem;
+}
+
+.status {
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.status.entregue {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.enviado {
+  background: #fff3cd;
+  color: #856404;
+}
+.status.processamento{
+  background: blue;
+  color: #fff3cd;
+
+}
+.status.cancelado{
+  background: red;
+  color: #fff3cd;
+
+}
+.status.pendente{
+  background: blueviolet;
+  color: #fff3cd;
+
+}
+/* ===== PAGINAÇÃO ===== */
+.paginacao {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 40px;
+  gap: 6px;
+}
+
+.paginacao button {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.paginacao .ativo {
+  background: #000;
+  color: #fff;
+}
