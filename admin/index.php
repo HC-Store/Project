@@ -3,27 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+  <title>Painel Administrativo</title>
 
-  <!-- CSS global -->
-  <link rel="stylesheet" href="src/assets/css/global.css">
+  <!-- CSS do painel -->
+  <link rel="stylesheet" href="global.css">
 </head>
 
 <body>
-  <?php
-    // Caminho corrigido (inclui SRC e ASSETS)
-    include(__DIR__ . "/src/assets/includes/sidebar.php");
-    include(__DIR__ . "/src/assets/includes/header.php");
-  ?>
+<?php
+  include(__DIR__ . '/../src/includes/sidebar.php');
+  include(__DIR__ . '/../src/includes/header.php');
+?>
 
   <main id="content">
-    <?php include(__DIR__ . "/src/assets/pages/dashboard.php"); ?>
+    <?php include(__DIR__ . '/pages/dashboard.php'); ?>
   </main>
 
-  <!-- Chart.js (gráficos) -->
+  <!-- Biblioteca externa para gráficos -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- Script global -->
-  <script src="src/assets/js/script.js"></script>
+  <!-- JS principal do painel -->
+  <script src="script.js" defer></script>
 </body>
 </html>

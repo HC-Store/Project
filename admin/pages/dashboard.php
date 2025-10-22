@@ -15,18 +15,18 @@
         <h3>Mais Vendidos</h3>
         <ul>
           <li>
-            <img src="https://via.placeholder.com/50" alt="">
-            <span>Adidas Ultra Boost</span>
+            <img src="../src/assets/image/conjadm.svg" alt="">
+            <span>Conjunto EA7</span>
             <strong>R$849,00</strong>
           </li>
           <li>
-            <img src="https://via.placeholder.com/50" alt="">
-            <span>Forum Exhibit Low</span>
+            <img src="../src/assets/image/adidastenis.svg" alt="">
+            <span>Adidas Campos</span>
             <strong>R$749,00</strong>
           </li>
           <li>
-            <img src="https://via.placeholder.com/50" alt="">
-            <span>SL Running</span>
+            <img src="../src/assets/image/conjadm.svg" alt="">
+            <span>Conjunto EA7</span>
             <strong>R$599,00</strong>
           </li>
         </ul>

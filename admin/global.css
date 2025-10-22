@@ -91,10 +91,16 @@ body {
   background: #e0e0e0;
 }
 
-/* Mostrar submenu quando ativo (via JS) */
-.submenu.open {
-  display: flex;
+.submenu {
+  display: none;
+  list-style: none;
+  margin-left: 15px;
 }
+
+.submenu.open {
+  display: block;
+}
+
 
 /* Ícone da seta */
 .categorias-btn::after {

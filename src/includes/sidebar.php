@@ -1,6 +1,6 @@
 <aside class="sidebar">
   <div class="sidebar-top">
-    <img src="src/assets/image/logo.svg" alt="Logo">
+    <img src="../src/assets/image/logo.svg" alt="Logo">
   </div>
 
   <nav class="sidebar-menu">

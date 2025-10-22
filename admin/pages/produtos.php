@@ -14,11 +14,11 @@
 
        Exemplo visual (temporário) -->
       <article class="produto-card">
-        <img src="" alt="Adidas Ultra Boost">
-        <h2>Adidas Ultra Boost</h2>
+        <img src="../src/assets/image/adidastenis.svg" alt="Adidas Campos">
+        <h2>Adidas Campos</h2>
         <p class="tipo">Tênis</p>
         <p class="preco">R$610,40</p>
-        <p class="descricao">Corridas de longa distância exigem muito dos atletas.</p>
+        <p class="descricao">Casual estiloso.</p>
         <div class="info">
           <span>Vendas</span> <strong>1269</strong>
           <span>Produtos restantes</span> <strong>1269</strong>
@@ -26,11 +26,11 @@
       </article>
 
       <article class="produto-card">
-        <img src="" alt="Adidas Ultra Boost">
+        <img src="../src/assets/image/adidastenis.svg" alt="Adidas Ultra Boost">
         <h2>Adidas Ultra Boost</h2>
         <p class="tipo">Tênis</p>
         <p class="preco">R$600,40</p>
-        <p class="descricao">Corridas de longa distância exigem muito dos atletas.</p>
+        <p class="descricao">Casual estiloso.</p>
         <div class="info">
           <span>Vendas</span> <strong>1269</strong>
           <span>Produtos restantes</span> <strong>1269</strong>
@@ -38,11 +38,11 @@
       </article>
 
       <article class="produto-card">
-        <img src="" alt="Adidas Ultra Boost">
-        <h2>Adidas Ultra Boost</h2>
+        <img src="../src/assets/image/adidastenis.svg" alt="Adidas Campos">
+        <h2>Adidas Campos</h2>
         <p class="tipo">Tênis</p>
         <p class="preco">R$800,40</p>
-        <p class="descricao">Corridas de longa distância exigem muito dos atletas.</p>
+        <p class="descricao">Casual estiloso.</p>
         <div class="info">
           <span>Vendas</span> <strong>1269</strong>
           <span>Produtos restantes</span> <strong>1269</strong>

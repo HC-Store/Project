@@ -1,56 +1,64 @@
-// Aguarda o DOM estar carregado antes de iniciar
 document.addEventListener("DOMContentLoaded", () => {
-  const links = document.querySelectorAll(".menu-link"); // classe dos botões do menu lateral
-  const content = document.getElementById("content"); // onde o conteúdo das páginas será inserido
+  const main = document.getElementById("content");
 
-  // Percorre todos os botões e adiciona o evento de clique
-  links.forEach(link => {
-    link.addEventListener("click", e => {
-      e.preventDefault(); // impede o recarregamento total da página
+  // Botões que têm data-page = troca de páginas
+  const pageButtons = document.querySelectorAll(".menu-link[data-page]");
 
-      const page = link.getAttribute("data-page"); // lê o nome da página a ser carregada
-      const url = `src/assets/pages/${page}.php`; // caminho correto para as páginas
+  // Botão e submenu de categorias
+  const categoriasBtn = document.querySelector(".categorias-btn");
+  const categoriasLista = document.getElementById("categorias-lista");
 
-      // Requisição AJAX para carregar o conteúdo da página
-      fetch(url)
-        .then(res => {
-          if (!res.ok) throw new Error("Página não encontrada");
-          return res.text();
-        })
-        .then(html => {
-          content.innerHTML = html; // insere o conteúdo da página no main
-          loadPageCSS(page);        // carrega o CSS correspondente
-          loadPageJS(page);         // carrega o JS correspondente
-        })
-        .catch(err => {
-          content.innerHTML = `<p style="color:red; font-weight:600; text-align:center;">Erro: ${err.message}</p>`;
-        });
+  // Controladores de CSS e JS dinâmicos
+  let currentCss = null;
+  let currentJs = null;
+
+  // ✅ 1. Lógica do submenu "Categorias"
+  if (categoriasBtn && categoriasLista) {
+    categoriasBtn.addEventListener("click", () => {
+      categoriasLista.classList.toggle("open");
+    });
+  }
+
+  // ✅ 2. Lógica de troca de páginas dinâmicas
+  pageButtons.forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const page = btn.getAttribute("data-page");
+
+      try {
+        // Carrega o conteúdo da página PHP
+        const response = await fetch(`pages/${page}.php`);
+        if (!response.ok) throw new Error(`Erro ao carregar ${page}.php`);
+        const html = await response.text();
+        main.innerHTML = html;
+
+        // Remove CSS anterior e adiciona o novo
+        if (currentCss) currentCss.remove();
+        const cssPath = `../src/assets/css/${page}.css`;
+        const newCss = document.createElement("link");
+        newCss.rel = "stylesheet";
+        newCss.href = cssPath;
+        document.head.appendChild(newCss);
+        currentCss = newCss;
+
+        // Remove JS anterior e adiciona o novo
+        if (currentJs) currentJs.remove();
+        const jsPath = `../src/assets/js/${page}.js`;
+        const newJs = document.createElement("script");
+        newJs.src = jsPath;
+        newJs.defer = true;
+        document.body.appendChild(newJs);
+        currentJs = newJs;
+
+        console.log(`✅ Página carregada: ${page}.php`);
+      } catch (error) {
+        console.error("Erro:", error);
+        main.innerHTML = `<p style="color:red;">${error.message}</p>`;
+      }
     });
   });
 });
 
-// === Função para carregar o CSS da página dinamicamente ===
-function loadPageCSS(page) {
-  const existingLink = document.getElementById("page-style");
-  if (existingLink) existingLink.remove();
 
-  const link = document.createElement("link");
-  link.rel = "stylesheet";
-  link.href = `src/assets/css/${page}.css`; // caminho relativo
-  link.id = "page-style";
-  document.head.appendChild(link);
-}
-
-// === Função para carregar o JS da página dinamicamente ===
-function loadPageJS(page) {
-  const existingScript = document.getElementById("page-script");
-  if (existingScript) existingScript.remove();
-
-  const script = document.createElement("script");
-  script.src = `src/assets/js/${page}.js`; // caminho relativo
-  script.id = "page-script";
-  document.body.appendChild(script);
-}
 // Toggle do menu de categorias
 document.addEventListener("DOMContentLoaded", () => {
   const categoriasBtn = document.querySelector(".categorias-btn");
