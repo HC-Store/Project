@@ -1,0 +1,81 @@
+CSS
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: "Arial", sans-serif;
+}
+
+.login {
+  background-color: #000;
+  color: #fff;
+  padding: 40px 30px;
+  width: 280px; /* 🔸 ligeiramente menor */
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+}
+h2 {
+ font-size: 22px;
+ font-weight: normal;
+ margin-bottom: 20px;
+ text-align: left;
+}
+
+label {
+  font-size: 11px;
+  text-align: left;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+
+input {
+  background: transparent;
+  border: 1px solid #777;
+  border-radius: 4px;
+  padding: 6px 8px; /* 🔸 altura menor */
+  color: #d4af37;
+  font-size: 13px;
+  width: 100%;
+  margin-bottom: 14px; /* 🔸 espaçamento entre inputs */
+}
+
+input::placeholder {
+  color: #d4af37;
+}
+
+.btn-entrar {
+  background-color: #d4af37;
+  border: none;
+  padding: 8px 0; /* 🔸 botão mais compacto */
+  color: white;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all 0.3s ease;
+}
+.btn-entrar:hover{
+  background: black;
+}
+
+.links {
+ margin-top: 20px;
+ display: flex;
+ flex-direction: column;
+ gap: 5px;
+ text-align: left;
+}
+
+.links a {
+ color: #fff;
+ font-size: 10px;
+ text-decoration: none;
+ letter-spacing: 0.5px;
+}
+
+.links a:hover {
+ text-decoration: underline;
+}

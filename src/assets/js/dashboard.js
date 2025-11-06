@@ -1,14 +1,11 @@
-function iniciarGraficos() {
-  const ctxPizza = document.getElementById('graficoPizza');
-  const ctxLinha = document.getElementById('graficoLinha');
+// --- Helpers para (re)inicializar com segurança ---
+function initPizzaChart() {
+  const canvas = document.getElementById('graficoPizza');
+  if (!canvas) return false;
+  const existing = Chart.getChart(canvas);
+  if (existing) existing.destroy();
 
-  // Se os canvas ainda não estão no DOM, tenta novamente
-  if (!ctxPizza || !ctxLinha) {
-    setTimeout(iniciarGraficos, 100);
-    return;
-  }
-
-  // === GRÁFICO PIZZA ===
+  const ctxPizza = canvas.getContext('2d');
   new Chart(ctxPizza, {
     type: 'doughnut',
     data: {
@@ -24,8 +21,16 @@ function iniciarGraficos() {
       plugins: { legend: { position: 'bottom' } }
     }
   });
+  return true;
+}
 
-  // === GRÁFICO LINHA ===
+function initLinhaChart() {
+  const canvas = document.getElementById('graficoLinha');
+  if (!canvas) return false;
+  const existing = Chart.getChart(canvas);
+  if (existing) existing.destroy();
+
+  const ctxLinha = canvas.getContext('2d');
   new Chart(ctxLinha, {
     type: 'line',
     data: {
@@ -44,11 +49,42 @@ function iniciarGraficos() {
       scales: { y: { beginAtZero: true } }
     }
   });
+  return true;
 }
 
-// Executa a função quando o DOM estiver carregado
-document.addEventListener("DOMContentLoaded", iniciarGraficos);
+// Tenta inicializar os dois gráficos, retorna true se pelo menos um foi criado
+function tryInitCharts() {
+  const ok1 = initPizzaChart();
+  const ok2 = initLinhaChart();
+  return ok1 || ok2;
+}
 
-// E também executa novamente se o script for carregado via fetch (dinamicamente)
-iniciarGraficos();
+// 1) Tenta imediatamente (quando o dashboard veio como página inicial)
+tryInitCharts();
+
+// 2) Observa mudanças no <main id="content"> para re-inicializar ao voltar ao dashboard
+(function observeContent() {
+  const content = document.getElementById('content');
+  if (!content) return;
+
+  const reinit = () => {
+    // Pequeno delay para garantir que o HTML já foi injetado
+    requestAnimationFrame(() => {
+      // se os canvases existem (estamos no dashboard), recria gráficos
+      tryInitCharts();
+    });
+  };
+
+  const observer = new MutationObserver((muts) => {
+    // Se houve adição/troca de nós, tentamos recriar
+    for (const m of muts) {
+      if (m.type === 'childList' && (m.addedNodes?.length || m.removedNodes?.length)) {
+        reinit();
+        break;
+      }
+    }
+  });
+
+  observer.observe(content, { childList: true, subtree: true });
+})();
 

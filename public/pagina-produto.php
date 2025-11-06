@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Produtos</title>
-    <link rel="stylesheet" href="/src/assets/pages/Página-Produto/style.css">
-    <script src="./galeria.js" defer ></script>
+    <link rel="stylesheet" href="../src/assets/css/pagina-produto.css">
+    <script src="../src/assets/js/produto-galeria.js" defer></script>
 </head>
 <body>
     <header>
@@ -21,7 +21,7 @@
     </header>
     <section class="produto">
   <div class="produto-imagem">
-    <img src="/src/assets/image/modelo.svg.svg" alt="Camiseta Empório Armani EA7">
+    <img src="../src/assets/image/modelo.svg.svg" alt="Camiseta Empório Armani EA7">
   </div>
 
   <div class="detalhes">
@@ -46,7 +46,7 @@
     <!-- Botões Compra -->
     <div class="acoes">
       <button class="btn-carrinho">Adicionar ao Carrinho</button>
-      <button class="btn-favorito"><img src="/src/assets/image/Coração.svg" alt="Lista de desejo" width="18"></button>
+      <button class="btn-favorito"><img src="../src/assets/image/Coração.svg" alt="Lista de desejo" width="18"></button>
     </div>
     <button class="btn-comprar">Comprar</button>
 
@@ -68,9 +68,9 @@
 <!-- Miniaturas galeria -->
 <section class="galeria">
   <div class="miniaturas">
-    <article><img src="/src/assets/image/frente.svg.svg" alt="Frente"></article>
-    <article><img src="/src/assets/image/lado.svg.svg" alt="Lado"></article>
-    <article><img src="/src/assets/image/costas.svg.svg" alt="Costas"></article>
+    <article><img src="../src/assets/image/frente.svg.svg" alt="Frente"></article>
+    <article><img src="../src/assets/image/lado.svg.svg" alt="Lado"></article>
+    <article><img src="../src/assets/image/costas.svg.svg" alt="Costas"></article>
   </div>
 </section>
 
@@ -79,35 +79,35 @@
   <h3>Você Também pode Gostar</h3>
   <div class="lista-relacionados">
     <article class="card-produto">
-      <img src="/src/assets/image/conjunto.svg" alt="">
+      <img src="../src/assets/image/conjunto.svg" alt="">
       <h4>Conjunto Moletom EA7</h4>
       <p>R$349,99</p>
       <button>Ver Mais</button>
     </article>
 
     <article class="card-produto">
-      <img src="/src/assets/image/conjunto.svg" alt="">
+      <img src="../src/assets/image/conjunto.svg" alt="">
       <h4>Blusa Moletom Puma</h4>
       <p>R$199,99</p>
       <button>Ver Mais</button>
     </article>
 
     <article class="card-produto">
-      <img src="/src/assets/image/conjunto.svg" alt="">
+      <img src="../src/assets/image/conjunto.svg" alt="">
       <h4>Conjunto Puma</h4>
       <p>R$349,99</p>
       <button>Ver Mais</button>
     </article>
 
     <article class="card-produto">
-      <img src="/src/assets/image/conjunto.svg" alt="">
+      <img src="../src/assets/image/conjunto.svg" alt="">
       <h4>Conjunto Gucci</h4>
       <p>R$349,99</p>
       <button>Ver Mais</button>
     </article>
 
     <article class="card-produto">
-      <img src="/src/assets/image/conjunto.svg" alt="">
+      <img src="../src/assets/image/conjunto.svg" alt="">
       <h4>Blusa Moletom EA7</h4>
       <p>R$199,99</p>
       <button>Ver Mais</button>

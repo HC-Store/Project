@@ -1,15 +1,14 @@
 <?php
 $host = 'localhost';
-$user = "root";
+$dbname = 'hcstore';
+$user = 'root';
 $password = '';
-$dbname = "hcstore";
 
-$conn = mysqli_connect($host, $user, $password, $dbname);
-
-
-if (!$conn) {
-    die("Erro na conexão: " . mysqli_connect_error());
-} else {
-    die("Sucesso na conexão");
+try {
+    $pdo = new PDO("mysql:host=$host;charset=utf8", $user, $password); // sem dbname
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // echo "Conexão bem-sucedida (sem banco)";
+} catch (PDOException $e) {
+    die("Erro na conexão: " . $e->getMessage());
 }
 ?>
