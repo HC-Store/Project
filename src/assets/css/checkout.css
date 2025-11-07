@@ -283,3 +283,237 @@ height: auto;
 font-size: var(--font-sm);
 color: var(--cor-texto);
 }
+
+.finalizar-btn {
+  background: #000;
+  color: #fff;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 15px;
+  transition: background 0.3s ease;
+}
+
+.finalizar-btn:hover {
+  background: #DAA520;
+}
+
+.cep-btn button {
+  margin-top: 22px;
+  height: 40px;
+  background: #000;
+  color: white;
+  border-radius: 6px;
+  border: none;
+  padding: 0 15px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.cep-btn button:hover {
+  background: #DAA520;
+}
+
+.mensagem-frete {
+  font-size: 13px;
+  margin-top: 8px;
+  color: green;
+  font-weight: 600;
+}
+/* DROPDOWNS GERAIS*/
+.user-menu {
+  position: relative;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.icon-btn img {
+  width: 35px;
+  height: auto;
+  transition: transform 0.2s, filter 0.3s;
+}
+
+.icon-btn:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.3);
+}
+
+/* Painéis de dropdown (favoritos, sacola) */
+.dropdown-panel, .dropdown-mini {
+  display: none;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  width: 320px;
+  z-index: 999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.dropdown-panel h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+.conteudo-fav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.produto-exemplo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.produto-exemplo img {
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.produto-info strong {
+  display: block;
+  font-size: 14px;
+}
+
+.produto-info span {
+  font-size: 13px;
+  color: #555;
+}
+
+.btn-acao, .btn-pagamento {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+.btn-acao:hover, .btn-pagamento:hover {
+  background: #DAA520;
+}
+
+/* Dropdown login pequeno */
+.dropdown-mini button {
+  display: block;
+  width: 100%;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dropdown-mini button:hover {
+  background: #DAA520;
+}
+
+/* POPUPS LOGIN / CRIAR CONTA */
+.popup {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup.active {
+  display: flex;
+}
+
+.login, .container-criar {
+  background: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.login h2, .container-criar h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.login input, .container-criar input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.login button, .container-criar button {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%;
+}
+
+.login button:hover, .container-criar button:hover {
+  background: #DAA520;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.links a {
+  font-size: 13px;
+  color: #000;
+  text-decoration: none;
+}
+
+.links a:hover {
+  color: #DAA520;
+}
+
+/*  BOTÕES GERAIS PADRÃO*/
+button, .btn-acao, .btn-pagamento {
+  background: #000;
+  color: #fff;
+  transition: background 0.3s;
+}
+
+button:hover, .btn-acao:hover, .btn-pagamento:hover {
+  background: #DAA520;
+}
+

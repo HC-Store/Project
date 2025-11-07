@@ -2,7 +2,7 @@
 
 // CONEXÃO COM BANCO
 
-include __DIR__ . '/../conexao.php';
+//include __DIR__ . '/../conexao.php';
 
 // PARÂMETROS (GET)
 
