@@ -16,8 +16,14 @@
 ?>
 
   <main id="content">
-    <?php include(__DIR__ . '/pages/dashboard.php'); ?>
-  </main>
+   <?php 
+      include(__DIR__ . '/pages/dashboard.php');
+      include(__DIR__ . '/pages/produtos.php');
+      include(__DIR__ . '/pages/adicionar.php');
+      include(__DIR__ . '/pages/pedidos.php');
+   ?>
+</main>
+
 
   <!-- Biblioteca externa para gráficos -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
