@@ -31,18 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const html = await response.text();
         main.innerHTML = html;
 
-        // Remove CSS anterior e adiciona o novo
+        // 🔥 CSS GLOBAL — sempre global.css
         if (currentCss) currentCss.remove();
-        const cssPath = `../src/assets/css/${page}.css`;
         const newCss = document.createElement("link");
         newCss.rel = "stylesheet";
-        newCss.href = cssPath;
+        newCss.href = "global.css"; // <-- AQUI ENTRA A PRIMEIRA OPÇÃO
         document.head.appendChild(newCss);
         currentCss = newCss;
 
-        // Remove JS anterior e adiciona o novo
+        // Remove JS anterior e adiciona o JS da página se existir
         if (currentJs) currentJs.remove();
-        const jsPath = `../src/assets/js/${page}.js`;
+        const jsPath = `pages/${page}.js`; // opcional
         const newJs = document.createElement("script");
         newJs.src = jsPath;
         newJs.defer = true;
@@ -71,26 +70,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
 // === DROPDOWNS (lupa, sino, admin) – delegação de eventos ===
 document.addEventListener("click", (e) => {
-  // Clique no botão (ícone) dentro de um .dropdown
   const btn = e.target.closest(".dropdown > .icon-btn");
   if (btn) {
     e.preventDefault();
     e.stopPropagation();
 
-    const dropdown = btn.parentElement; // .dropdown
+    const dropdown = btn.parentElement;
     const isOpen = dropdown.classList.contains("active");
 
-    // Fecha todos antes de abrir o atual
     document.querySelectorAll(".dropdown.active").forEach(d => d.classList.remove("active"));
 
-    // Abre/fecha o atual
     if (!isOpen) dropdown.classList.add("active");
-    return; // evita cair no fechamento global
+    return;
   }
 
-  // Se clicou fora de qualquer dropdown, fecha todos
   if (!e.target.closest(".dropdown")) {
     document.querySelectorAll(".dropdown.active").forEach(d => d.classList.remove("active"));
   }
