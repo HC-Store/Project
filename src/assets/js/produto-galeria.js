@@ -1,26 +1,113 @@
-// Troca de imagem principal
-document.querySelectorAll(".miniaturas img").forEach(img => {
-  img.addEventListener("click", () => {
-    const principal = document.getElementById("imagem-principal");
-    principal.src = img.src;
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* =====================================================
+       FUNÇÕES DE SUPORTE
+  ===================================================== */
+  const openFlex = el => el && (el.style.display = "flex");
+  const hide = el => el && (el.style.display = "none");
+
+  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
+  let sacola = JSON.parse(localStorage.getItem("sacola")) || [];
+
+  const salvarFavoritos = () =>
+    localStorage.setItem("favoritos", JSON.stringify(favoritos));
+    
+  const salvarSacola = () =>
+    localStorage.setItem("sacola", JSON.stringify(sacola));
+
+  /* =====================================================
+       IMAGEM PRINCIPAL + MINIATURAS
+  ===================================================== */
+  const principal = document.getElementById("imagem-principal");
+
+  if (principal) {
+    const fallbackImg = "../src/assets/image/sem-foto.svg";
+    if (!principal.src || principal.src.includes("null")) {
+      principal.src = fallbackImg;
+    }
+  }
+
+  document.querySelectorAll(".miniaturas img").forEach(img => {
+    img.addEventListener("click", () => {
+      if (principal) principal.src = img.src;
+    });
+
+    // fallback da miniatura
+    if (!img.src || img.src.includes("null")) {
+      img.src = "../src/assets/image/sem-foto.svg";
+    }
   });
-});
 
-// Dropdowns (favoritos, sacola, login)
-function fecharTodosDropdowns() {
-  document.querySelectorAll(".dropdown-panel, .dropdown-mini").forEach(el => el.style.display = "none");
-}
+  /* =====================================================
+       DADOS DO PRODUTO DA PÁGINA
+  ===================================================== */
+  const nomeProd =
+    document.querySelector(".titulo-prod")?.textContent.trim() || "Produto";
+  const precoProd =
+    document.querySelector(".preco strong")?.textContent.trim() || "R$ 0,00";
+  const imgProd = principal?.src || "../src/assets/image/sem-foto.svg";
 
-document.addEventListener("click", e => {
-  if (!e.target.closest(".user-menu")) fecharTodosDropdowns();
-});
+  /* =====================================================
+       BOTÃO - FAVORITAR
+  ===================================================== */
+  const btnFav = document.getElementById("btn-add-favorito");
 
-document.querySelectorAll(".user-menu button").forEach(btn => {
-  btn.addEventListener("click", e => {
-    e.stopPropagation();
-    const menu = btn.parentElement.querySelector(".dropdown-panel, .dropdown-mini");
-    const aberto = menu.style.display === "block";
-    fecharTodosDropdowns();
-    menu.style.display = aberto ? "none" : "block";
+  btnFav?.addEventListener("click", () => {
+    const existe = favoritos.some(p => p.nome === nomeProd);
+
+    if (!existe) {
+      favoritos.push({ nome: nomeProd, preco: precoProd, img: imgProd });
+      salvarFavoritos();
+    }
+
+    // animação simples
+    btnFav.style.transform = "scale(1.2)";
+    setTimeout(() => (btnFav.style.transform = "scale(1)"), 200);
   });
+
+  /* =====================================================
+       BOTÃO - ADICIONAR À SACOLA
+  ===================================================== */
+  const btnSacola = document.getElementById("btn-add-carrinho");
+
+  btnSacola?.addEventListener("click", () => {
+    sacola.push({ nome: nomeProd, preco: precoProd, img: imgProd });
+    salvarSacola();
+
+    // tenta abrir dropdown da sacola (se existir na página via header)
+    const bagDropdown = document.getElementById("bag-dropdown");
+    if (bagDropdown) openFlex(bagDropdown);
+  });
+
+  /* =====================================================
+       BOTÃO - COMPRAR (vai pro checkout.php)
+  ===================================================== */
+  const btnComprar = document.getElementById("btn-comprar");
+
+  btnComprar?.addEventListener("click", () => {
+    const id = btnComprar.dataset.id;
+    if (!id) return alert("Produto sem ID.");
+
+    window.location.href = `checkout.php?id=${id}`;
+  });
+
+  /* =====================================================
+       CARDS DE RELACIONADOS — VER MAIS
+  ===================================================== */
+  document.querySelectorAll(".card-produto button").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.preventDefault();
+
+      const card = btn.closest(".card-produto");
+      const categoria = card?.dataset?.cat || "";
+
+      if (categoria.length > 0) {
+        window.location.href = `lista-produtos.php?category=${encodeURIComponent(categoria)}`;
+      } else {
+        window.location.href = "lista-produtos.php";
+      }
+    });
+  });
+
 });
+

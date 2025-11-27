@@ -1,11 +1,13 @@
+// =================== BANNER PRINCIPAL (CARROSSEL) ===================
 (() => {
   const track = document.querySelector('#bannerCarousel .carousel-track');
   if (!track) return;
+
   const slides = Array.from(track.children);
   const total = slides.length;
 
   let index = 0;
-  const INTERVAL = Number(track.dataset.interval) || 4000; 
+  const INTERVAL = Number(track.dataset.interval) || 4000;
   const DURATION = 600;
 
   function goTo(i) {
@@ -15,25 +17,37 @@
   }
 
   let timer = setInterval(() => goTo(index + 1), INTERVAL);
+
   track.addEventListener('mouseenter', () => clearInterval(timer));
   track.addEventListener('mouseleave', () => {
     timer = setInterval(() => goTo(index + 1), INTERVAL);
   });
 
-  window.addEventListener('resize', () => requestAnimationFrame(() => goTo(index)));
+  window.addEventListener('resize', () => {
+    requestAnimationFrame(() => goTo(index));
+  });
+
   setTimeout(() => goTo(0), DURATION);
 })();
 
-// ======== CARROSSEL DE MARCAS ========
+
+// =================== CARROSSEL DE MARCAS ===================
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.querySelector("#marcasCarousel");
   const track = container?.querySelector(".carousel-track nav");
   if (!container || !track) return;
 
   const imgs = Array.from(track.querySelectorAll("img"));
-  Promise.all(imgs.map(img => img.complete ? Promise.resolve() : new Promise(res => { img.onload = img.onerror = res; })))
-  .then(() => {
-    track.innerHTML += track.innerHTML;
+
+  Promise.all(
+    imgs.map(img =>
+      img.complete
+        ? Promise.resolve()
+        : new Promise(res => { img.onload = img.onerror = res; })
+    )
+  ).then(() => {
+    track.innerHTML += track.innerHTML; // duplica conteúdo para loop infinito
+
     let x = 0;
     const SPEED = 3;
     let raf;
@@ -48,31 +62,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     container.addEventListener("mouseenter", () => cancelAnimationFrame(raf));
     container.addEventListener("mouseleave", () => requestAnimationFrame(step));
+
     requestAnimationFrame(step);
   });
 });
 
-// ======== CARROSSEL BEST SELLERS (5 por vez, rolagem automática) ========
+
+// =================== CARROSSEL BEST SELLERS ===================
 document.addEventListener("DOMContentLoaded", () => {
   const track = document.querySelector("#bestSellersCarousel .product-list");
   if (!track) return;
 
   const cards = Array.from(track.children);
   const total = cards.length;
-  const visible = 5; // 5 produtos visíveis
+  const visible = 5;      // 5 produtos por "página"
   let index = 0;
-  const intervalTime = 5000; // 5 segundos
+  const intervalTime = 5000;
 
-  // Duplicar cards para efeito contínuo
+  // Duplica lista pra criar carrossel infinito
   track.innerHTML += track.innerHTML;
-  const cardWidth = track.scrollWidth / (total * 2); // largura total dividida pelo dobro de itens
+  const cardWidth = track.scrollWidth / (total * 2);
 
   function slide() {
     index += visible;
     track.style.transition = "transform 1s ease-in-out";
     track.style.transform = `translateX(-${index * cardWidth}px)`;
 
-    // reset ao fim do primeiro grupo duplicado
     if (index >= total) {
       setTimeout(() => {
         track.style.transition = "none";
@@ -85,204 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
   setInterval(slide, intervalTime);
 });
 
-// ======== ÚLTIMO CARROSSEL (LOOK) ========
-const track1 = document.querySelector(".carrossel-track1");
-if (track1) {
-  const items = Array.from(track1.children);
-  track1.innerHTML += track1.innerHTML;
-  let x = 0;
-  const SPEED = 1;
-  function step() {
-    x += SPEED;
-    if (x >= track1.scrollWidth / 2) x = 0;
-    track1.style.transform = `translateX(${-x}px)`;
-    requestAnimationFrame(step);
-  }
-  requestAnimationFrame(step);
-}
-
-// ======== HEADER / DROPDOWNS / LOCALSTORAGE ========
-document.addEventListener("DOMContentLoaded", () => {
-
-  function fecharTodosDropdowns() {
-    document.querySelectorAll(".dropdown-panel, .dropdown-mini, .popup, .categorias").forEach(el => el.style.display = "none");
-  }
-
-  const favIcon = document.getElementById("fav-icon");
-  const bagIcon = document.getElementById("bag-icon");
-  const userIcon = document.getElementById("user-icon");
-
-  const favDropdown = document.getElementById("fav-dropdown");
-  const bagDropdown = document.getElementById("bag-dropdown");
-  const userDropdown = document.getElementById("user-dropdown");
-
-  const popupLogin = document.getElementById("popup-login");
-  const popupCriar = document.getElementById("popup-criar");
-  const btnVoltar = document.getElementById("btn-voltar");
-
-  const menuLinks = document.querySelectorAll(".menu a");
-
-  let favoritos = JSON.parse(localStorage.getItem("favoritos")) || [];
-  let sacola = JSON.parse(localStorage.getItem("sacola")) || [];
-
-  const openFlex = el => { if (el) el.style.display = "flex"; };
-  const hide = el => { if (el) el.style.display = "none"; };
-  const isVisible = el => el && getComputedStyle(el).display !== "none";
-
-  function atualizarFavoritos() {
-    const box = favDropdown?.querySelector(".conteudo-fav");
-    if (!box) return;
-    box.innerHTML = favoritos.length
-      ? favoritos.map((p, i) => `
-        <div class="produto-exemplo">
-          <img src="${p.img}" alt="${p.nome}">
-          <div class="produto-info"><strong>${p.nome}</strong><span>${p.preco}</span></div>
-          <button class="remover-fav" data-i="${i}">✖</button>
-        </div>`).join('')
-      : "<p>Sem favoritos ainda.</p>";
-
-    box.querySelectorAll(".remover-fav").forEach(btn => {
-      btn.addEventListener("click", e => {
-        e.stopPropagation();
-        favoritos.splice(btn.dataset.i, 1);
-        localStorage.setItem("favoritos", JSON.stringify(favoritos));
-        atualizarFavoritos();
-      });
-    });
-  }
-
-  function atualizarSacola() {
-    const box = bagDropdown?.querySelector(".conteudo-fav");
-    const titulo = bagDropdown?.querySelector("h3");
-    if (!box || !titulo) return;
-    titulo.textContent = `MINHA SACOLA (${sacola.length})`;
-    box.innerHTML = sacola.length
-      ? sacola.map((p, i) => `
-        <div class="produto-exemplo">
-          <img src="${p.img}" alt="${p.nome}">
-          <div class="produto-info"><strong>${p.nome}</strong><span>${p.preco}</span></div>
-          <button class="remover-sacola" data-i="${i}">✖</button>
-        </div>`).join('')
-      : "<p>Sua sacola está vazia.</p>";
-
-    box.querySelectorAll(".remover-sacola").forEach(btn => {
-      btn.addEventListener("click", e => {
-        e.stopPropagation();
-        sacola.splice(btn.dataset.i, 1);
-        localStorage.setItem("sacola", JSON.stringify(sacola));
-        atualizarSacola();
-      });
-    });
-  }
-
-  document.querySelectorAll(".product-card .fav").forEach(btn => {
-    btn.addEventListener("click", e => {
-      e.stopPropagation();
-      btn.classList.toggle("active");
-      const card = btn.closest(".product-card");
-      const nome = card.querySelector(".title").textContent.trim();
-      const preco = card.querySelector(".price").textContent.trim();
-      const img = card.querySelector("img").src;
-
-      if (btn.classList.contains("active")) {
-        if (!favoritos.some(p => p.nome === nome)) favoritos.push({ nome, preco, img });
-      } else {
-        favoritos = favoritos.filter(p => p.nome !== nome);
-      }
-      localStorage.setItem("favoritos", JSON.stringify(favoritos));
-      atualizarFavoritos();
-    });
-  });
-
-  document.querySelectorAll(".product-card .btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const card = btn.closest(".product-card");
-      const nome = card.querySelector(".title").textContent.trim();
-      const preco = card.querySelector(".price").textContent.trim();
-      const img = card.querySelector("img").src;
-      sacola.push({ nome, preco, img });
-      localStorage.setItem("sacola", JSON.stringify(sacola));
-      atualizarSacola();
-      fecharTodosDropdowns();
-      openFlex(bagDropdown);
-    });
-  });
-
-  function toggleDropdown(btn, dropdown) {
-    btn.addEventListener("click", e => {
-      e.stopPropagation();
-      const visible = isVisible(dropdown);
-      fecharTodosDropdowns();
-      if (!visible) openFlex(dropdown);
-    });
-    dropdown.addEventListener("click", e => e.stopPropagation());
-  }
-
-  if (favIcon && favDropdown) toggleDropdown(favIcon, favDropdown);
-  if (bagIcon && bagDropdown) toggleDropdown(bagIcon, bagDropdown);
-
-  if (userIcon && userDropdown) {
-    userIcon.addEventListener("click", e => {
-      e.stopPropagation();
-      const visible = isVisible(userDropdown);
-      fecharTodosDropdowns();
-      userDropdown.style.display = visible ? "none" : "block";
-    });
-  }
-
-  const btnEntrar = document.getElementById("btn-entrar");
-  const btnCriar = document.getElementById("btn-criar");
-  const linkCriar = document.getElementById("link-criar");
-  const linkLogin = document.getElementById("link-login");
-
-  btnEntrar?.addEventListener("click", () => { userDropdown.style.display = "none"; popupLogin.style.display = "flex"; });
-  btnCriar?.addEventListener("click", () => { userDropdown.style.display = "none"; popupCriar.style.display = "flex"; });
-  linkCriar?.addEventListener("click", e => { e.preventDefault(); popupLogin.style.display = "none"; popupCriar.style.display = "flex"; });
-  linkLogin?.addEventListener("click", e => { e.preventDefault(); popupCriar.style.display = "none"; popupLogin.style.display = "flex"; });
-
- // ======== MENU PRINCIPAL - DROPDOWNS INDIVIDUAIS ========
-menuLinks.forEach(link => {
-  link.addEventListener("click", e => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const cat = link.dataset.cat;
-    const target = document.getElementById(`cat-${cat}`);
-    if (!target) return;
-
-    const visible = isVisible(target);
-    fecharTodosDropdowns();
-
-    if (!visible) {
-      target.style.display = "block";
-
-      // Garante que o menu sempre aparece por cima de tudo
-      target.style.zIndex = "999";
-    }
-  });
-});
-
-// Redireciona para lista-produtos.php quando o usuário clicar em uma categoria
-document.querySelectorAll(".categorias-grid span").forEach(item => {
-  item.addEventListener("click", () => {
-    window.location.href = "lista-produtos.php";
-  });
-});
-
-
-  document.addEventListener("click", e => {
-    if (!e.target.closest(".user-menu, .popup, .categorias, .dropdown-panel")) fecharTodosDropdowns();
-  });
-  document.addEventListener("keydown", e => { if (e.key === "Escape") fecharTodosDropdowns(); });
-
-  document.addEventListener("click", e => {
-    if (e.target.classList.contains("btn-pagamento")) window.location.href = "pagamento.php";
-  });
-  btnVoltar?.addEventListener("click", () => hide(bagDropdown));
-
-  atualizarFavoritos();
-  atualizarSacola();
-});
 
 
 

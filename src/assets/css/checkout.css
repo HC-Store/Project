@@ -2,79 +2,50 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
-header {
-  background-color: #000;     /* fundo preto */
-  padding: 10px 20px;         /* espaçamento interno */
+
+/* FUNDO GERAL DA PÁGINA DE CHECKOUT */
+body {
+  background: #fff;
 }
-/* Container do header */
-.container {
-  display: flex;              /* organiza em linha */
-  align-items: center;        /* centraliza verticalmente */
-  justify-content: space-between; /* espaço entre os itens */
-  max-width: 1200px;
-  margin: 0 auto;             /* centraliza na tela */
-}
-/* Input */
- header input {
-  background-color: #fff;     /* fundo branco */
-  border: none;
-  padding: 6px 10px;
-  border-radius: 4px;
-  font-size: 14px;
-  width: 200px;               /* largura fixa */
-}
-/* Logo central */
-.logo {
-  width: 159px;
-  height: 127px;             
-  display: block;
-  margin: 0 auto;
-}
-/* Ícones à direita */
-nav.icons {
-  display: flex;
-  align-items: center;
-  gap: 45px;                  /* espaçamento entre os ícones */
-}
-/* Links dos ícones */
-nav.icons a {
-  display: inline-block;
-}
-nav.icons a img {
-  width: 42px;                /* tamanho dos ícones */
-  height: auto;
-  transition: transform 0.2s, filter 0.3s;
-  cursor: pointer;
-}
-nav.icons a:hover img {
-  transform: scale(1.1);
-  filter: brightness(1.3);
-}
+
+/* LAYOUT PRINCIPAL DO CHECKOUT */
+/*main.checkout, 
+.checkout-esquerda, 
+.checkout-direita {
+    background: #ffffff !important;
+}*/
+
 .checkout {
   display: flex;
   justify-content: space-between;
   max-width: 1100px;
   margin: 40px auto;
   gap: 40px;
+  background: #fff;
+  color: #000;
 }
 
 .checkout-esquerda {
   flex: 2;
+  background: #fff;
 }
 
 .checkout-direita {
   flex: 1;
+  background: #fff;
   border-left: 1px solid #ddd;
   padding-left: 20px;
 }
 
-.titulo {
+/* TÍTULOS E TEXTOS */
+.checkout-titulo {
   font-size: 20px;
   margin: 20px 0 10px;
 }
 
-.titulo {
+.section-subtitle {
   font-size: 14px;
   color: #666;
   margin-bottom: 20px;
@@ -95,15 +66,19 @@ nav.icons a:hover img {
   flex: 1;
 }
 
-input {
+/* INPUTS – APENAS DENTRO DO CHECKOUT */
+.checkout input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
   width: 100%;
   font-size: 14px;
+  background: #fff;
+  color: #000;
 }
 
-button {
+/* BOTÕES – APENAS DENTRO DO CHECKOUT */
+.checkout button {
   padding: 10px 16px;
   border: none;
   background: #000;
@@ -111,12 +86,21 @@ button {
   border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
+  transition: background 0.3s ease;
 }
 
-button:hover {
+.checkout button:hover {
   background: #DAA520;
+  color: #000;
 }
 
+/* BOTÃO PRINCIPAL DE FINALIZAR */
+.btn-finalizar {
+  width: 100%;
+  margin-top: 15px;
+}
+
+/* RESUMO DO PEDIDO */
 .resumo-pedido {
   margin: 20px 0;
 }
@@ -134,6 +118,7 @@ button:hover {
   font-size: 16px;
 }
 
+/* ITENS DO LADO DIREITO */
 .detalhe {
   display: flex;
   align-items: center;
@@ -156,6 +141,7 @@ button:hover {
   color: #000;
 }
 
+/* CUPOM */
 .desconto {
   display: flex;
   gap: 10px;
@@ -165,355 +151,100 @@ button:hover {
 .desconto input {
   flex: 1;
 }
-/* Footer */
-/* Benefícios */
-.beneficios-container{
-display: flex;
-justify-content: center;
-gap: var(--gap-grande);
-padding: 20px;
-background: #D9D9D9;
+
+/* MENSAGENS */
+.checkout-erro {
+  margin-top: 10px;
+  color: #ff4d4f;
+  font-size: 13px;
 }
 
-.beneficio{
-display: flex;
-align-items: center;
-gap: 10px;
+.cupom-ok {
+  font-size: 13px;
+  color: green;
+  margin-top: 6px;
 }
 
-.beneficio img{
-width: 40px;
-height: 40px;
-object-fit: contain;
-}
-
-.beneficio .texto{
-display: flex;
-flex-direction: column;
-line-height: 1.2;
-}
-
-.beneficio strong{
-font-size: var(--font-sm);
-font-weight: bold;
-}
-
-.beneficio span{
-font-size: var(--font-xs);
-}
-
-/* Navegação */
-.segunda-part{
-display: flex;
-background: #D9D9D9;
-justify-content: center;
-align-items: flex-start;
-flex-wrap: wrap;
-gap: var(--gap-grande);
-padding: 40px 20px;
-}
-
-.segunda-part nav {
-display: flex;
-flex-direction: column;
-min-width: 180px;
-}
-
-.text {
-font-weight: bold;
-font-size: var(--font-md);
-margin-bottom: 20px;
-margin: 15px;
-}
-
-.link {
-color: var(--cor-texto);
-text-decoration: none;
-margin: 15px;
-font-size: var(--font-sm);
-}
-
-.link:hover{
-text-decoration: none;
-color: darkgoldenrod;
-}
-
-/* Ícones sociais */
-.social-icons{
-display: flex;
-gap: 10px;
-margin-top: 10px;
-}
-
-.social-icons img {
-width: 24px;
-height: 24px;
-}
-
-/* Rodapé final */
-.rodape-final{
-display: flex;
-background: #D9D9D9;
-flex-direction: column;
-align-items: center;
-gap: 20px;
-padding: 30px 20px;
-}
-
-.pagamento img {
-width: 250px;
-height: auto;
-justify-content: center;
-display: flex;
-}
-
-.app {
-display: flex;
-align-items: center;
-gap: 10px;
-text-align: left;
-}
-
-.app img{
-width: 60px;
-height: auto;
-}
-
-.descricao-app{
-font-size: var(--font-sm);
-color: var(--cor-texto);
-}
-
-.finalizar-btn {
-  background: #000;
-  color: #fff;
-  padding: 12px 18px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  width: 100%;
-  margin-top: 15px;
-  transition: background 0.3s ease;
-}
-
-.finalizar-btn:hover {
-  background: #DAA520;
-}
-
+/* BOTÃO DO CEP – MANTÉM PADRÃO DO CHECKOUT */
 .cep-btn button {
   margin-top: 22px;
   height: 40px;
-  background: #000;
-  color: white;
-  border-radius: 6px;
-  border: none;
-  padding: 0 15px;
-  cursor: pointer;
-  transition: background 0.3s ease;
 }
 
-.cep-btn button:hover {
-  background: #DAA520;
-}
-
-.mensagem-frete {
-  font-size: 13px;
-  margin-top: 8px;
-  color: green;
-  font-weight: 600;
-}
-/* DROPDOWNS GERAIS*/
-.user-menu {
-  position: relative;
-}
-
-.icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px;
-}
-
-.icon-btn img {
-  width: 35px;
-  height: auto;
-  transition: transform 0.2s, filter 0.3s;
-}
-
-.icon-btn:hover img {
-  transform: scale(1.1);
-  filter: brightness(1.3);
-}
-
-/* Painéis de dropdown (favoritos, sacola) */
-.dropdown-panel, .dropdown-mini {
-  display: none;
-  position: absolute;
-  top: 50px;
-  right: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 15px;
-  width: 320px;
-  z-index: 999;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-}
-
-.dropdown-panel h3 {
-  font-size: 16px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 5px;
-}
-
-.conteudo-fav {
+/* ==============================
+   FOOTER (MESMO DA HOME)
+============================== */
+.beneficios-container {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-  max-height: 250px;
-  overflow-y: auto;
+  justify-content: center;
+  gap: var(--gap-grande);
+  padding: 20px;
+  background: #D9D9D9;
 }
 
-.produto-exemplo {
+.beneficio {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.produto-exemplo img {
-  width: 50px;
-  height: 50px;
-  border-radius: 6px;
-  object-fit: cover;
+.beneficio img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
-.produto-info strong {
-  display: block;
-  font-size: 14px;
+.beneficio .texto {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
 }
 
-.produto-info span {
-  font-size: 13px;
-  color: #555;
-}
-
-.btn-acao, .btn-pagamento {
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-  width: 100%;
-  margin-top: 10px;
-  text-transform: uppercase;
-}
-
-.btn-acao:hover, .btn-pagamento:hover {
-  background: #DAA520;
-}
-
-/* Dropdown login pequeno */
-.dropdown-mini button {
-  display: block;
-  width: 100%;
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
-  margin-bottom: 8px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.dropdown-mini button:hover {
-  background: #DAA520;
-}
-
-/* POPUPS LOGIN / CRIAR CONTA */
-.popup {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.6);
+.segunda-part {
+  display: flex;
+  background: #D9D9D9;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  flex-wrap: wrap;
+  gap: var(--gap-grande);
+  padding: 40px 20px;
 }
 
-.popup.active {
+.segunda-part nav {
   display: flex;
+  flex-direction: column;
+  min-width: 180px;
 }
 
-.login, .container-criar {
-  background: #fff;
-  padding: 30px;
-  border-radius: 8px;
-  width: 400px;
-  max-width: 90%;
-}
-
-.login h2, .container-criar h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 20px;
-}
-
-.login input, .container-criar input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-.login button, .container-criar button {
-  background: #000;
-  color: #fff;
-  border: none;
-  padding: 10px;
-  border-radius: 6px;
+.text {
   font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-  width: 100%;
+  margin: 15px;
 }
 
-.login button:hover, .container-criar button:hover {
-  background: #DAA520;
+.link {
+  color: var(--cor-texto);
+  text-decoration: none;
+  margin: 15px;
 }
 
-.links {
+.link:hover {
+  color: darkgoldenrod;
+}
+
+.social-icons {
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
   margin-top: 10px;
 }
 
-.links a {
-  font-size: 13px;
-  color: #000;
-  text-decoration: none;
+.rodape-final {
+  display: flex;
+  background: #D9D9D9;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 30px 20px;
 }
 
-.links a:hover {
-  color: #DAA520;
+.pagamento img {
+  width: 250px;
 }
-
-/*  BOTÕES GERAIS PADRÃO*/
-button, .btn-acao, .btn-pagamento {
-  background: #000;
-  color: #fff;
-  transition: background 0.3s;
-}
-
-button:hover, .btn-acao:hover, .btn-pagamento:hover {
-  background: #DAA520;
-}
-
