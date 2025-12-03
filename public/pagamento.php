@@ -1,24 +1,16 @@
 <?php
 session_start();
 
-/* ================================
-   CONEXÃO COM O BANCO (NOVO)
-================================ */
-$host = 'localhost';
-$db   = 'hcstore';
-$user = 'root';
-$pass = '';
-$dsn  = "mysql:host=$host;dbname=$db;charset=utf8mb4";
-
-$pdo = new PDO($dsn, $user, $pass, [
-  PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-  PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-]);
+include '../conexao.php';
 
 /* ================================
    IDENTIFICA USUÁRIO
 ================================ */
-$userId = $_SESSION['user_id'] ?? 1;
+if (!isset($_SESSION['user_id'])) {
+    die("ERRO: usuário não está logado.");
+}
+
+$userId = $_SESSION['user_id'];
 
 /* ================================
    CARREGA ITENS DO CARRINHO
@@ -117,23 +109,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirmar_pagamento']
            3. SALVAR PAGAMENTO EM "pagamentos"
         ================================= */
         if ($paymentMethod === 'pix') {
-            $paymentPayload = "000201PIX_FAKE_" . rand(10000, 99999);
-        } elseif ($paymentMethod === 'boleto') {
-            $paymentPayload = "34191.79001.01043.510047.91020.150008.1.00000000000000";
-        } else {
-            $paymentPayload = "TX-" . strtoupper(bin2hex(random_bytes(5)));
-        }
+    $paymentPayload = "000201PIX_FAKE_" . rand(10000, 99999);
+} elseif ($paymentMethod === 'boleto') {
+    $paymentPayload = "34191.79001.01043.510047.91020.150008.1.00000000000000";
+} else {
+    $paymentPayload = "TX-" . strtoupper(bin2hex(random_bytes(5)));
+}
 
-        $stmtPagamento = $pdo->prepare("
-          INSERT INTO pagamentos (pedido_id, metodo, valor, status, transacao_id)
-          VALUES (?, ?, ?, 'pendente', ?)
-        ");
-        $stmtPagamento->execute([
-          $pedidoId,
-          $paymentMethod,
-          $total,
-          $paymentPayload
-        ]);
+$stmtPagamento = $pdo->prepare("
+    INSERT INTO pagamentos (pedido_id, usuario_id, valor, metodo_pagamento, status_pagamento)
+    VALUES (?, ?, ?, ?, ?)
+");
+$stmtPagamento->execute([
+    $pedidoId,
+    $userId,
+    $total,
+    $paymentMethod,
+    'pendente'
+]);
 
         /* ================================
            4. LIMPA CARRINHO DO USUÁRIO

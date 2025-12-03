@@ -1,6 +1,6 @@
 <aside class="sidebar">
   <div class="sidebar-top">
-    <img src="../src/assets/image/logo.svg" alt="Logo">
+    <a href="/project/public/home.php"><img src="../src/assets/image/logo.svg" alt="Logo"></a>
   </div>
 
   <nav class="sidebar-menu">

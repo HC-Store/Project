@@ -59,7 +59,7 @@
         <h4>Administrador</h4>
         <ul>
           <li> Alterar Senha</li>
-          <li> Sair</li>
+          <a href="/project/public/ajax/logout.php"><li> Sair</li></a>
         </ul>
       </div>
     </div>
