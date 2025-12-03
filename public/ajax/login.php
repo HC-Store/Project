@@ -3,7 +3,7 @@ header('Content-Type: application/json; charset=utf-8');
 session_start();
 
 // Conexão correta
-require_once __DIR__ . '/conexao.php';
+require_once __DIR__ . '/../../conexao.php';
 
 $resp = ['status' => 'error', 'errors' => []];
 

@@ -75,69 +75,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     /* ==============================================
        2) Upload de Imagem
     ============================================== */
-    if ($_POST['action'] === 'upload_image') {
+    /* ==============================================
+   2) Upload de Imagem
+============================================== */
+if ($_POST['action'] === 'upload_image') {
 
-        if (!$pdo) {
-            echo json_encode(['success' => false, 'message' => 'Conexão não encontrada']);
-            exit;
-        }
-
-        $produto_id = (int)($_POST['produto_id'] ?? 0);
-        if ($produto_id <= 0) {
-            echo json_encode(['success' => false, 'message' => 'ID inválido']);
-            exit;
-        }
-
-        if (!isset($_FILES['image'])) {
-            echo json_encode(['success' => false, 'message' => 'Nenhum arquivo enviado']);
-            exit;
-        }
-
-        $file = $_FILES['image'];
-        $allowed = ['image/jpeg', 'image/png', 'image/webp'];
-        $mime = mime_content_type($file['tmp_name']);
-
-        if (!in_array($mime, $allowed)) {
-            echo json_encode(['success' => false, 'message' => 'Formato não permitido']);
-            exit;
-        }
-
-        if ($file['size'] > (5 * 1024 * 1024)) {
-            echo json_encode(['success' => false, 'message' => 'Máximo 5MB']);
-            exit;
-        }
-
-        $dir = __DIR__ . "/uploads/products/";
-        if (!is_dir($dir)) mkdir($dir, 0777, true);
-
-        $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $safeName = time() . "_" . bin2hex(random_bytes(5)) . "." . $ext;
-
-        $dest = $dir . $safeName;
-
-        if (!move_uploaded_file($file['tmp_name'], $dest)) {
-            echo json_encode(['success' => false, 'message' => 'Falha ao salvar imagem']);
-            exit;
-        }
-
-        $caminho = "uploads/products/" . $safeName;
-
-        $stmt = $pdo->prepare("SELECT COALESCE(MAX(ordenacao),0)+1 FROM produto_imagens WHERE produto_id = ?");
-        $stmt->execute([$produto_id]);
-        $ord = $stmt->fetchColumn();
-
-        $stmt = $pdo->prepare("INSERT INTO produto_imagens (produto_id, caminho, ordenacao) VALUES (?, ?, ?)");
-        $stmt->execute([$produto_id, $caminho, $ord]);
-
-        echo json_encode(['success' => true, 'caminho' => $caminho]);
+    if (!$pdo) {
+        echo json_encode(['success' => false, 'message' => 'Conexão não encontrada']);
         exit;
     }
 
-    echo json_encode(['success' => false, 'message' => 'Ação inválida']);
+    $produto_id = (int)($_POST['produto_id'] ?? 0);
+    if ($produto_id <= 0) {
+        echo json_encode(['success' => false, 'message' => 'ID inválido']);
+        exit;
+    }
+
+    if (!isset($_FILES['image'])) {
+        echo json_encode(['success' => false, 'message' => 'Nenhum arquivo enviado']);
+        exit;
+    }
+
+    $file = $_FILES['image'];
+    $allowed = ['image/jpeg', 'image/png', 'image/webp'];
+    $mime = mime_content_type($file['tmp_name']);
+
+    if (!in_array($mime, $allowed)) {
+        echo json_encode(['success' => false, 'message' => 'Formato não permitido']);
+        exit;
+    }
+
+    if ($file['size'] > (5 * 1024 * 1024)) {
+        echo json_encode(['success' => false, 'message' => 'Máximo 5MB']);
+        exit;
+    }
+
+    // CORRIGIDO - caminho certo da pasta
+    $dir = __DIR__ . "/../../uploads/products/";
+    if (!is_dir($dir)) mkdir($dir, 0777, true);
+
+    // nome seguro
+    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+    $safeName = time() . "_" . bin2hex(random_bytes(5)) . "." . $ext;
+
+    $dest = $dir . $safeName;
+
+    if (!move_uploaded_file($file['tmp_name'], $dest)) {
+        echo json_encode(['success' => false, 'message' => 'Falha ao salvar imagem']);
+        exit;
+    }
+
+    // CORRIGIDO — caminho correto para salvar no banco
+    $caminho = "uploads/products/" . $safeName;
+
+    // ordenação
+    $stmt = $pdo->prepare("SELECT COALESCE(MAX(ordenacao),0)+1 FROM produto_imagens WHERE produto_id = ?");
+    $stmt->execute([$produto_id]);
+    $ord = $stmt->fetchColumn();
+
+    // salva imagem
+    $stmt = $pdo->prepare("INSERT INTO produto_imagens (produto_id, caminho, ordenacao) VALUES (?, ?, ?)");
+    $stmt->execute([$produto_id, $caminho, $ord]);
+
+    echo json_encode(['success' => true, 'caminho' => $caminho]);
     exit;
 }
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -302,7 +306,7 @@ body{background:#fff;padding:28px;color:#222;}
 </form>
 
 <!-- APENAS UM SCRIPT -->
-
+<script src="pages/adicionar.js"></script>
 
 </body>
 </html>

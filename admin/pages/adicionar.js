@@ -1,5 +1,5 @@
 /* ============================================================
-   ESTADO
+   ESTADO GLOBAL
 ============================================================ */
 const state = {
     produto_id: null,
@@ -9,19 +9,19 @@ const state = {
 /* ============================================================
    ELEMENTOS
 ============================================================ */
-const fileInput   = document.getElementById("file-multiple");
-const uploadArea  = document.getElementById("upload-area");
-const uploadList  = document.getElementById("upload-list");
-const preview     = document.getElementById("main-image");
+const fileInput  = document.getElementById("file-multiple");
+const uploadArea = document.getElementById("upload-area");
+const uploadList = document.getElementById("upload-list");
+const preview    = document.getElementById("main-image");
+
 
 /* ============================================================
-   SELECIONAR ARQUIVOS
+   BOTÃO "SELECIONAR"
 ============================================================ */
 document.getElementById("select-btn").onclick = () => fileInput.click();
 
-fileInput.onchange = (e) => {
-    handleFiles(e.target.files);
-};
+fileInput.onchange = (e) => handleFiles(e.target.files);
+
 
 /* ============================================================
    DRAG & DROP
@@ -41,14 +41,15 @@ uploadArea.ondrop = (e) => {
     handleFiles(e.dataTransfer.files);
 };
 
+
 /* ============================================================
-   PROCESSAR ARQUIVOS
+   PROCESSAR ARQUIVOS SELECIONADOS
 ============================================================ */
 function handleFiles(files) {
     [...files].forEach(file => {
 
-        if (!["image/png", "image/jpeg", "image/webp"].includes(file.type)) {
-            alert("Formato inválido!");
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+            alert("Formato inválido! Permitido: JPG, PNG, WEBP");
             return;
         }
 
@@ -58,18 +59,18 @@ function handleFiles(files) {
         }
 
         const id = "f" + Math.random().toString(36).substring(2, 10);
-
         state.files.push({ id, file });
 
         addUploadItem(id, file);
 
-        // preview principal
+        // define o preview principal
         preview.src = URL.createObjectURL(file);
     });
 }
 
+
 /* ============================================================
-   CRIA ITEM VISUAL NA LISTA
+   CRIA ITEM VISUAL PARA UPLOAD LIST
 ============================================================ */
 function addUploadItem(id, file) {
 
@@ -88,23 +89,24 @@ function addUploadItem(id, file) {
             </div>
         </div>
 
-        <div class="upload-check" id="check_${id}" style="opacity:0;">
-            ✔
-        </div>
+        <div class="upload-check" id="check_${id}" style="opacity:0;">✔</div>
     `;
 
     uploadList.appendChild(row);
 }
 
+
 /* ============================================================
    CONTADOR DE DESCRIÇÃO
 ============================================================ */
 document.getElementById("descricao").oninput = (e) => {
-    const v = e.target.value;
-    if (v.length > 500) e.target.value = v.slice(0, 500);
+    const txt = e.target.value;
+    if (txt.length > 500) e.target.value = txt.slice(0, 500);
+
     document.getElementById("contador-desc").textContent =
-        e.target.value.length + "/500";
+        `${e.target.value.length}/500`;
 };
+
 
 /* ============================================================
    MÁSCARA DE MOEDA
@@ -115,8 +117,9 @@ function maskMoney(input) {
     input.value = "R$ " + v.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-document.getElementById("preco_normal").oninput = e => maskMoney(e.target);
-document.getElementById("preco_venda").oninput  = e => maskMoney(e.target);
+document.getElementById("preco_normal").oninput = (e) => maskMoney(e.target);
+document.getElementById("preco_venda").oninput  = (e) => maskMoney(e.target);
+
 
 /* ============================================================
    BOTÃO CANCELAR
@@ -127,23 +130,17 @@ document.getElementById("btn-cancelar").onclick = () => {
     }
 };
 
+
 /* ============================================================
-   BOTÃO ADICIONAR
+   BOTÃO ADICIONAR PRODUTO
 ============================================================ */
 document.getElementById("btn-salvar").onclick = async () => {
 
-    const nome    = document.getElementById("nome").value.trim();
-    const precoV  = document.getElementById("preco_venda").value.trim();
+    const nome = document.getElementById("nome").value.trim();
+    const preco_venda = document.getElementById("preco_venda").value.trim();
 
-    if (!nome) {
-        alert("Preencha o nome do produto");
-        return;
-    }
-
-    if (!precoV) {
-        alert("Preencha o preço de venda");
-        return;
-    }
+    if (!nome) return alert("Preencha o nome do produto!");
+    if (!preco_venda) return alert("Preencha o preço de venda!");
 
     const form = new FormData();
     form.append("action", "create_product");
@@ -156,16 +153,13 @@ document.getElementById("btn-salvar").onclick = async () => {
     form.append("preco_normal", document.getElementById("preco_normal").value);
     form.append("preco_venda", document.getElementById("preco_venda").value);
 
-    // DESABILITA O BOTÃO
     const btn = document.getElementById("btn-salvar");
     btn.disabled = true;
     btn.textContent = "Salvando...";
 
-    // ENVIA PARA O PHP NO CAMINHO CORRETO
-    const res = await fetch("pages/adicionar.php", {
-        method: "POST",
-        body: form
-    });
+    // ENVIO PARA adicionar.php (CAMINHO CORRETO!)
+    const res = await fetch("pages/adicionar.php", { method:"POST", body:form })
+
 
     const json = await res.json();
 
@@ -178,20 +172,22 @@ document.getElementById("btn-salvar").onclick = async () => {
 
     state.produto_id = json.produto_id;
 
+    // se não tem imagens, finaliza
     if (state.files.length === 0) {
-        finishSuccess();
-        return;
+        return finishSuccess();
     }
 
-    for (const f of state.files) {
-        await uploadImage(f);
+    // envia todas as imagens
+    for (const entry of state.files) {
+        await uploadImage(entry);
     }
 
     finishSuccess();
 };
 
+
 /* ============================================================
-   UPLOAD INDIVIDUAL
+   UPLOAD INDIVIDUAL DE IMAGEM
 ============================================================ */
 function uploadImage(entry) {
 
@@ -215,15 +211,22 @@ function uploadImage(entry) {
         };
 
         xhr.onload = () => {
-            try {
-                const json = JSON.parse(xhr.responseText);
 
-                if (json.success) {
-                    bar.style.width = "100%";
-                    check.style.opacity = "1";
-                }
+            let json;
+            try {
+                json = JSON.parse(xhr.responseText);
             } catch (e) {
-                console.error("Erro no retorno do upload:", xhr.responseText);
+                console.error("ERRO JSON:", xhr.responseText);
+                alert("O servidor retornou HTML em vez de JSON. Verifique o início do adicionar.php.");
+                resolve();
+                return;
+            }
+
+            if (json.success) {
+                bar.style.width = "100%";
+                check.style.opacity = "1";
+            } else {
+                alert("Erro ao enviar imagem: " + json.message);
             }
 
             resolve();
@@ -234,6 +237,7 @@ function uploadImage(entry) {
     });
 }
 
+
 /* ============================================================
    FINALIZAÇÃO
 ============================================================ */
@@ -242,6 +246,6 @@ function finishSuccess() {
         `<p class="msg">Produto cadastrado com sucesso!</p>`;
 
     const btn = document.getElementById("btn-salvar");
-    btn.textContent = "ADICIONADO";
+    btn.textContent = "ADICIONADO!";
     btn.disabled = true;
 }

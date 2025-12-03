@@ -5,30 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel Administrativo</title>
 
-  <!-- CSS do painel -->
+  <!-- CSS global -->
   <link rel="stylesheet" href="global.css">
 </head>
 
 <body>
+
 <?php
   include(__DIR__ . '/../src/includes/sidebar.php');
   include(__DIR__ . '/../src/includes/header.php');
 ?>
 
-  <main id="content">
-   <?php 
-      include(__DIR__ . '/pages/dashboard.php');
-      include(__DIR__ . '/pages/produtos.php');
-      include(__DIR__ . '/pages/adicionar.php');
-      include(__DIR__ . '/pages/pedidos.php');
-   ?>
-</main>
+  <!-- SPA injeta páginas aqui -->
+  <main id="content"></main>
 
-
-  <!-- Biblioteca externa para gráficos -->
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- JS principal do painel -->
+  <!-- SPA principal -->
   <script src="script.js" defer></script>
+
 </body>
 </html>

@@ -5,7 +5,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-db = "meubanco";
+$db = "hcstore";
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
@@ -176,12 +176,13 @@ td {
     <div class="dropdown-status">
       <button class="alterar-status">Alterar Status ▼</button>
       <ul class="dropdown-lista">
-        <li>Entregue</li>
-        <li>Enviado</li>
-        <li>Cancelado</li>
-        <li>Pendente</li>
-        <li>Processamento</li>
-      </ul>
+  <li onclick="alterarStatus('Entregue')">Entregue</li>
+  <li onclick="alterarStatus('Enviado')">Enviado</li>
+  <li onclick="alterarStatus('Cancelado')">Cancelado</li>
+  <li onclick="alterarStatus('Pendente')">Pendente</li>
+  <li onclick="alterarStatus('Processamento')">Processamento</li>
+</ul>
+
     </div>
   </div>
 </section>
@@ -190,7 +191,7 @@ td {
   <h3>Pedidos Recentes</h3>
   <table>
     <thead>
-      <tr>
+      <tr data-id="<?= $p['id'] ?>">
         <th></th>
         <th>Produto</th>
         <th>ID Pedido</th>
@@ -203,7 +204,7 @@ td {
     </thead>
     <tbody>
       <?php foreach ($pedidos as $p): ?>
-      <tr>
+    <tr data-id="<?= $p['id'] ?>">
         <td><input type="checkbox"></td>
         <td><?= $p['produto'] ?></td>
         <td>#<?= $p['id'] ?></td>
@@ -241,6 +242,42 @@ document.addEventListener('click', (e) => {
     menu.style.display = 'none';
   }
 });
+
+function alterarStatus(status) {
+
+    // encontra qual pedido está selecionado
+    const check = document.querySelector("tbody input[type='checkbox']:checked");
+
+    if (!check) {
+        alert("Selecione um pedido para alterar o status!");
+        return;
+    }
+
+    const row = check.closest("tr");
+    const id = row.getAttribute("data-id");
+
+    // AJAX para alterar no banco
+    fetch("pages/pedidos_action.php", {
+        method: "POST",
+        body: new URLSearchParams({
+            action: "alterar_status",
+            id: id,
+            status: status
+        })
+    })
+    .then(r => r.json())
+    .then(json => {
+        if (json.success) {
+            // muda visualmente na tela
+            row.querySelector(".status").textContent = status;
+            row.querySelector(".status").className = "status " + status.toLowerCase();
+            alert("Status atualizado para: " + status);
+        } else {
+            alert("Erro: " + json.message);
+        }
+    });
+}
+
 </script>
 
 </body>

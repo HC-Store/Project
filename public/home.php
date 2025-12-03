@@ -15,6 +15,19 @@
     <!-- JS da página -->
     <script src="../src/assets/js/home-carrosel.js" defer></script>
 </head>
+<?php
+require_once "../conexao.php";
+
+$produtos = $pdo->query("
+    SELECT p.id, p.nome, p.preco_venda,
+    (SELECT caminho FROM produto_imagens 
+     WHERE produto_id = p.id ORDER BY ordenacao ASC LIMIT 1) AS imagem
+    FROM produtos p
+    ORDER BY p.id DESC
+    LIMIT 10
+")->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 
 <body>
   <?php 
@@ -74,105 +87,39 @@
  
  <div class="carousel-viewport" aria-label="Carrossel de produtos"> 
    
-   <ul class="product-list"> 
-      <!-- Produtos (10 no total) --> 
-       <li class="product-card"> 
-        <button class="fav" aria-label="Favoritar">♥</button> 
-       <a href="pagina-produto.php" class="thumb"> 
-        <img src="../src/assets/image/moletom-nike.jpg" alt="Moletom Nike"> 
-      </a> 
-       <h3 class="title">MOLETOM NIKE</h3> 
-       <strong class="price">R$ 189,99</strong> 
-       <button class="btn">Adicionar ao Carrinho</button> 
-      </li> 
-      
-      <li class="product-card"> 
-        <button class="fav" aria-label="Favoritar">♥</button> 
-        <a href="pagina-produto.php" class="thumb"> <img src="../src/assets/image/shorts-nike.jpg" alt="Shorts Nike"> </a> 
-        <h3 class="title">SHORTS NIKE</h3> 
-        <strong class="price">R$ 120,00</strong> 
-        <button class="btn">Adicionar ao Carrinho</button> 
-      </li> 
-      
-      <li class="product-card"> 
-        <button class="fav" aria-label="Favoritar">♥</button> 
-        <a href="pagina-produto.php" class="thumb"> 
-          <img src="../src/assets/image/tenis-nike.jpg" alt="Tênis Nike"> 
-        </a> 
-        <h3 class="title">TÊNIS NIKE</h3> 
-        <strong class="price">R$ 349,90</strong> 
-        <button class="btn">Adicionar ao Carrinho</button> 
-      </li> 
-      
-      <li class="product-card"> 
-        <button class="fav" aria-label="Favoritar">♥</button> 
-        <a href="pagina-produto.php" class="thumb"> 
-          <img src="../src/assets/image/sueter-adidas.jpg" alt="Suéter Adidas"> 
+<ul class="product-list">
+<?php foreach ($produtos as $p): 
+    // caminho da imagem (fallback se nulo)
+    $img = $p['imagem'] ? trim($p['imagem']) : 'src/assets/image/default-product.jpg';
+
+    // se a imagem salva for relativa sem ../, ajuste conforme sua estrutura
+    // aqui assumimos que a home está em /admin/ ou similar e usamos ../ para subir uma pasta
+    $imgPath = file_exists(__DIR__ . '/../' . $img) ? '../' . $img : $img;
+?>
+    <li class="product-card" data-id="<?= (int)$p['id'] ?>">
+        <button class="fav" aria-label="Favoritar">♥</button>
+
+        <a href="pagina-produto.php?id=<?= (int)$p['id'] ?>" class="thumb">
+            <img 
+                src="<?= htmlspecialchars($imgPath, ENT_QUOTES) ?>" 
+                alt="<?= htmlspecialchars($p['nome'], ENT_QUOTES) ?>" 
+                loading="lazy"
+                onerror="this.src='../src/assets/image/default-product.jpg'">
         </a>
-       <h3 class="title">SUÉTER ADIDAS</h3> 
-        <strong class="price">R$ 189,99</strong> 
-        <button class="btn">Adicionar ao Carrinho</button> 
-      </li> 
-    <li class="product-card"> 
-      <button class="fav" aria-label="Favoritar">♥</button> 
-      <a href="pagina-produto.php" class="thumb"> 
-        <img src="../src/assets/image/camiseta-puma.jpg" alt="Camiseta Puma"> 
-      </a> 
-      <h3 class="title">CAMISETA PUMA</h3> 
-      <strong class="price">R$ 159,99</strong> 
-      <button class="btn">Adicionar ao Carrinho</button> 
-    </li> 
-    
-    <li class="product-card"> 
-      <button class="fav" aria-label="Favoritar">♥</button> 
-      <a href="pagina-produto.php" class="thumb"> 
-        <img src="../src/assets/image/bolsa-lv.jpg" alt="Bolsa LV"> 
-      </a> 
-      <h3 class="title">BOLSA LV</h3> 
-      <strong class="price">R$ 799,90</strong> 
-      <button class="btn">Adicionar ao Carrinho</button> 
-    </li> 
-    
-    <li class="product-card"> 
-      <button class="fav" aria-label="Favoritar">♥</button> 
-      <a href="pagina-produto.php" class="thumb"> 
-        <img src="../src/assets/image/relogio-lacoste.jpg" alt="Relógio Lacoste"> 
-      </a> 
-      <h3 class="title">RELÓGIO LACOSTE</h3> 
-      <strong class="price">R$ 499,99</strong> 
-      <button class="btn">Adicionar ao Carrinho</button> 
-    </li> 
-    
-    <li class="product-card"> 
-      <button class="fav" aria-label="Favoritar">♥</button> 
-      <a href="pagina-produto.php" class="thumb"> 
-        <img src="../src/assets/image/pulseira-gucci.jpg" alt="Pulseira Gucci"> 
-      </a> 
-      <h3 class="title">PULSEIRA GUCCI</h3> 
-      <strong class="price">R$ 299,99</strong> 
-      <button class="btn">Adicionar ao Carrinho</button> 
-    </li> 
-    
-    <li class="product-card"> 
-      <button class="fav" aria-label="Favoritar">♥</button> 
-      <a href="pagina-produto.php" class="thumb"> 
-        <img src="../src/assets/image/carteira-balenciaga.jpg" alt="Carteira Balenciaga"> 
-      </a> 
-      <h3 class="title">CARTEIRA BALENCIAGA</h3> 
-      <strong class="price">R$ 399,99</strong> 
-      <button class="btn">Adicionar ao Carrinho</button> 
-    </li> 
-    
-    <li class="product-card"> 
-      <button class="fav" aria-label="Favoritar">♥</button> 
-      <a href="pagina-produto.php" class="thumb"> 
-        <img src="../src/assets/image/conjunto-ea7.jpg" alt="Conjunto EA7"> 
-      </a> 
-      <h3 class="title">CONJUNTO EA7</h3> 
-      <strong class="price">R$ 249,99</strong> 
-      <button class="btn">Adicionar ao Carrinho</button> 
-    </li> 
-  </ul> 
+
+        <h3 class="title"><?= htmlspecialchars($p['nome']) ?></h3>
+
+        <strong class="price">
+            R$ <?= number_format((float)$p['preco_venda'], 2, ',', '.') ?>
+        </strong>
+
+        <button class="btn add-cart" data-id="<?= $p['id'] ?>">Adicionar ao Carrinho</button>
+
+    </li>
+<?php endforeach; ?>
+</ul>
+
+
 </div> 
 </section>
 
@@ -283,6 +230,31 @@
 <img src="../src/assets/image/img-pagamento.svg" alt="Formas de pagamento">
 </div>
 </footer>
+<script>
+document.querySelectorAll('.add-cart').forEach(btn => {
+    btn.addEventListener('click', async () => {
+
+        let id = btn.getAttribute('data-id');
+
+        const res = await fetch("cart_action.php", {
+            method: "POST",
+            body: new URLSearchParams({
+                action: "add",
+                id: id
+            })
+        });
+
+        const json = await res.json();
+
+        if (json.success) {
+            alert("Produto adicionado na sacola!");
+        } else {
+            alert("Erro: " + json.message);
+        }
+    });
+});
+</script>
+
 
 </body>
 </html>

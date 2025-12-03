@@ -7,10 +7,10 @@ $sql = $pdo->query("
         p.id,
         p.nome,
         p.descricao,
-        p.quantidade AS estoque,
+        p.estoque,
         p.categoria,
         p.marca,
-        p.preco_venda AS preco,
+        p.preco_venda,
         (
             SELECT caminho 
             FROM produto_imagens 
@@ -47,14 +47,17 @@ $produtos = $sql->fetchAll();
 
 <?php foreach($produtos as $p): ?>
   <article class="produto-card">
+<img 
+  src="<?= $p['imagem'] ? '../' . $p['imagem'] : '../../uploads/produtos' ?>" 
+  alt=""
+>
 
-    <img src="<?= $p['imagem'] ? '../../uploads/'.$p['imagem'] : '../src/assets/image/adidastenis.svg' ?>" alt=""> 
 
     <h2><?= htmlspecialchars($p['nome']) ?></h2>
 
     <p class="tipo"><?= htmlspecialchars($p['categoria'] ?? "Sem categoria") ?></p>
 
-    <p class="preco">R$<?= number_format($p['preco'], 2, ',', '.') ?></p>
+    <p class="preco_venda">R$<?= number_format($p['preco_venda'], 2, ',', '.') ?></p>
 
     <p class="descricao"><?= htmlspecialchars($p['descricao']) ?></p>
 

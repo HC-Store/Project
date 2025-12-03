@@ -1,210 +1,207 @@
 <?php
 require_once __DIR__ . '/../../conexao.php';
 
-/* =============================
+/* ===========================
    MAIS VENDIDOS
-============================= */
+   =========================== */
 $maisQuery = $pdo->query("
     SELECT 
-        p.nome AS produto,
-        pi.preco AS preco,
-        (
-            SELECT caminho 
-            FROM produto_imagens 
-            WHERE produto_id = p.id 
-            ORDER BY ordenacao ASC 
-            LIMIT 1
-        ) AS imagem,
-        SUM(pi.quantidade) AS total_vendido
+        p.id,
+        p.nome,
+        p.preco_venda,
+        (SELECT caminho FROM produto_imagens WHERE produto_id = p.id ORDER BY ordenacao ASC LIMIT 1) AS imagem,
+        COALESCE(SUM(pi.quantidade),0) AS total_vendido
     FROM pedido_itens pi
     INNER JOIN produtos p ON p.id = pi.produto_id
-    GROUP BY pi.produto_id
+    GROUP BY p.id
     ORDER BY total_vendido DESC
-    LIMIT 3
+    LIMIT 5
 ");
-$maisVendidos = $maisQuery->fetchAll();
+$maisVendidos = $maisQuery->fetchAll(PDO::FETCH_ASSOC);
 
-/* =============================
+/* ===========================
    PEDIDOS RECENTES
-============================= */
+   =========================== */
 $recentQuery = $pdo->query("
     SELECT 
-        p.id AS pedido_id,
-        c.nome AS cliente,
-        p.status,
-        p.total,
-        p.created_at
-    FROM pedidos p
-    INNER JOIN clientes c ON c.id = p.cliente_id
-    ORDER BY p.id DESC
-    LIMIT 10
+        o.id AS pedido_id,
+        o.usuario_id,
+        u.nome AS cliente,
+        o.status,
+        o.valor_total AS total,
+        o.criado_em
+    FROM pedidos o
+    LEFT JOIN usuarios u ON u.id = o.usuario_id
+    ORDER BY o.id DESC
+    LIMIT 8
 ");
-$pedidos = $recentQuery->fetchAll();
+$pedidos = $recentQuery->fetchAll(PDO::FETCH_ASSOC);
 
-/* =============================
-   GRÁFICO PIZZA
-============================= */
+/* ===========================
+   GRÁFICO PIZZA (STATUS)
+   =========================== */
 $totais = $pdo->query("
     SELECT 
         SUM(status = 'pago') AS pagos,
         SUM(status = 'enviado') AS enviados,
-        SUM(status = 'cancelado') AS cancelados
+        SUM(status = 'entregue') AS entregues,
+        SUM(status = 'cancelado') AS cancelados,
+        SUM(status = 'pendente') AS pendentes
     FROM pedidos
-")->fetch();
+")->fetch(PDO::FETCH_ASSOC);
 
-$pieLabels = ['Pagos', 'Enviados', 'Cancelados'];
+$pieLabels = ['Pago','Enviado','Entregue','Cancelado','Pendente'];
 $pieData = [
     (int)$totais['pagos'],
     (int)$totais['enviados'],
-    (int)$totais['cancelados']
+    (int)$totais['entregues'],
+    (int)$totais['cancelados'],
+    (int)$totais['pendentes']
 ];
 
-/* =============================
+/* ===========================
    GRÁFICO DE LINHA
-============================= */
+   =========================== */
 $anoAtual = date('Y');
 $lineLabels = [];
 $lineData = [];
 
-for ($m = 1; $m <= 12; $m++) {
-    $lineLabels[] = date("M", mktime(0, 0, 0, $m, 1));
-
-    $stm = $pdo->prepare("
-        SELECT SUM(total) AS soma
-        FROM pedidos
-        WHERE MONTH(created_at) = ? AND YEAR(created_at) = ?
-    ");
-    $stm->execute([$m, $anoAtual]);
-    $row = $stm->fetch();
-
-    $lineData[] = $row['soma'] ? (float)$row['soma'] : 0;
+$stm = $pdo->prepare("
+    SELECT IFNULL(SUM(valor_total),0) AS soma
+    FROM pedidos
+    WHERE MONTH(criado_em) = ? AND YEAR(criado_em) = ?
+");
+for($m=1; $m<=12; $m++){
+    $lineLabels[] = date('M', mktime(0,0,0,$m,1));
+    $stm->execute([$m,$anoAtual]);
+    $lineData[] = (float)($stm->fetchColumn() ?? 0);
 }
 
-/* =============================
-   STATUS CLASS
-============================= */
-function status_class($s){
-    return match(strtolower($s)){
-        'pago'      => 'entregue',
-        'enviado'   => 'enviado',
-        'cancelado' => 'cancelado',
-        default     => 'pendente'
-    };
+/* ===========================
+   Função Avatar (iniciais)
+   =========================== */
+function avatar_initials($name){
+    $parts = explode(' ', trim($name));
+    $i = strtoupper($parts[0][0] ?? '?');
+    $j = strtoupper($parts[1][0] ?? '');
+    return $i.$j;
 }
 ?>
-<!doctype html>
-<html lang="pt-BR">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Dashboard</title>
+<!-- =============== VARIÁVEIS PARA O JS =============== -->
+<script>
+    const pieLabels        = <?= json_encode($pieLabels) ?>;
+    const pieData          = <?= json_encode($pieData) ?>;
+    const lineLabels       = <?= json_encode($lineLabels) ?>;
+    const lineData         = <?= json_encode($lineData) ?>;
+    const maisVendidos     = <?= json_encode($maisVendidos, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+    const pedidosRecentes  = <?= json_encode($pedidos, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+</script>
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- =============== LINK DO CSS =============== -->
+<link rel="stylesheet" href="pages/dashboard.css">
 
-  <!-- Variáveis para o JS -->
-  <script>
-    const pieLabels = <?= json_encode($pieLabels) ?>;
-    const pieData   = <?= json_encode($pieData) ?>;
-    const lineLabels = <?= json_encode($lineLabels) ?>;
-    const lineData   = <?= json_encode($lineData) ?>;
-  </script>
+<!-- =============== HTML DO DASHBOARD =============== -->
+<div class="dashboard-wrap">
 
-  <!-- CSS CORRETO -->
-  <link rel="stylesheet" href="./pages/dashboard.css">
+    <div class="top-row">
 
-</head>
+        <!-- DONUTS -->
+        <div class="card graph-card">
+            <h3>Gráfico Geral</h3>
 
-<body>
+            <div class="donuts-row">
+                <div class="donut-item">
+                    <canvas id="donut1"></canvas>
+                    <div class="donut-label">Pedidos Pagos</div>
+                </div>
+                <div class="donut-item">
+                    <canvas id="donut2"></canvas>
+                    <div class="donut-label">Pedidos Enviados</div>
+                </div>
+                <div class="donut-item">
+                    <canvas id="donut3"></canvas>
+                    <div class="donut-label">Pedidos Entregues</div>
+                </div>
+            </div>
+        </div>
 
-  <div class="container">
-    <h1 class="page-title">Dashboard</h1>
+        <!-- MAIS VENDIDOS -->
+        <aside class="card top-sellers">
+            <h3>Mais Vendidos</h3>
 
-    <!-- CARDS SUPERIORES -->
-    <section class="painel-cards">
+            <ul id="lista-vendidos">
+                <?php foreach($maisVendidos as $m): ?>
+                    <li>
+                        <img src="<?= $m['imagem'] ?: 'uploads/placeholder.png' ?>">
+                        <div class="info">
+                            <div class="nome"><?= htmlspecialchars($m['nome']) ?></div>
+                            <div class="meta">
+                                R$<?= number_format($m['preco_venda'],2,',','.') ?> — <?= $m['total_vendido'] ?> vendidos
+                            </div>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
 
-      <!-- GRÁFICO PIZZA -->
-      <div class="card grafico">
-        <h3>Gráfico Geral</h3>
-        <canvas id="graficoPizza"></canvas>
-      </div>
+            <button class="relatorio">RELATÓRIO</button>
+        </aside>
 
-      <!-- MAIS VENDIDOS -->
-      <div class="card mais-vendidos">
-        <h3>Mais Vendidos</h3>
-        <ul>
-          <?php if(empty($maisVendidos)): ?>
-            <li>Nenhum produto vendido</li>
+    </div>
 
-          <?php else: foreach($maisVendidos as $m): ?>
-              <li>
-                <img src="<?= $m['imagem'] ? '../../uploads/' . $m['imagem'] : 'placeholder.png' ?>" 
-                     style="width:45px; border-radius:8px" alt="">
-                <span><?= htmlspecialchars($m['produto']) ?></span>
-                <strong>R$<?= number_format($m['preco'], 2, ',', '.') ?></strong>
-              </li>
-          <?php endforeach; endif; ?>
-        </ul>
-        <button class="relatorio">Relatório</button>
-      </div>
+    <!-- GRÁFICO LINHA -->
+    <div class="card line-card">
+        <h3>Vendas ao Mês (<?= $anoAtual ?>)</h3>
+        <canvas id="graficoLinha"></canvas>
+    </div>
 
-    </section>
+    <!-- PEDIDOS RECENTES -->
+    <div class="card pedidos-card">
+        <h3>Pedidos Recentes</h3>
 
-    <!-- GRÁFICO DE LINHA -->
-    <section class="grafico-linha card">
-      <h3>Vendas ao Mês</h3>
-      <canvas id="graficoLinha"></canvas>
-    </section>
+        <table class="pedidos-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>ID</th>
+                    <th>Data</th>
+                    <th>Cliente</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
 
-    <!-- TABELA DE PEDIDOS -->
-    <section class="card pedidos">
-      <h3>Pedidos Recentes</h3>
+            <tbody>
+                <?php foreach($pedidos as $p): ?>
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>#<?= $p['pedido_id'] ?></td>
+                    <td><?= date("d/m/Y H:i", strtotime($p['criado_em'])) ?></td>
 
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Nº Pedido</th>
-            <th>Data</th>
-            <th>Cliente</th>
-            <th>Status</th>
-            <th>Total</th>
-          </tr>
-        </thead>
+                    <td>
+                        <div class="cliente">
+                            <div class="avatar"><?= avatar_initials($p['cliente']) ?></div>
+                            <div><?= htmlspecialchars($p['cliente']) ?></div>
+                        </div>
+                    </td>
 
-        <tbody>
-        <?php if(empty($pedidos)): ?>
-            <tr><td colspan="6">Nenhum pedido encontrado.</td></tr>
+                    <td><span class="status <?= strtolower($p['status']) ?>"><?= ucfirst($p['status']) ?></span></td>
+                    <td>R$<?= number_format($p['total'],2,',','.') ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
 
-        <?php else: foreach($pedidos as $p): ?>
-          <tr>
-            <td><input type="checkbox"></td>
+        </table>
+    </div>
 
-            <td>#<?= $p['pedido_id'] ?></td>
+</div>
 
-            <td><?= date("d/m/Y H:i", strtotime($p['created_at'])) ?></td>
+<!-- =============== SCRIPT DO DASHBOARD =============== -->
+<script src="pages/dashboard.js"></script>
+<script>
+window.lineLabels = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
-            <td><?= htmlspecialchars($p['cliente']) ?></td>
+window.lineData = [120, 150, 180, 160, 210, 190, 240, 260, 280, 300, 330, 350];
 
-            <td>
-              <span class="status <?= status_class($p['status']) ?>">
-                <?= ucfirst($p['status']) ?>
-              </span>
-            </td>
-
-            <td>R$<?= number_format($p['total'], 2, ',', '.') ?></td>
-          </tr>
-        <?php endforeach; endif; ?>
-        </tbody>
-
-      </table>
-    </section>
-
-  </div>
-
-  <!-- JS CORRETO -->
-  <script src="./pages/dashboard.js"></script>
-
-</body>
-</html>
+window.pieData = [81, 22, 62]; // exemplo
+</script>

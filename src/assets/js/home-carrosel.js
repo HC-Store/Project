@@ -79,9 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let index = 0;
   const intervalTime = 5000;
 
-  // Duplica lista pra criar carrossel infinito
-  track.innerHTML += track.innerHTML;
-  const cardWidth = track.scrollWidth / (total * 2);
+ 
 
   function slide() {
     index += visible;

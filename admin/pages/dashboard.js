@@ -1,41 +1,117 @@
-// ===============================
-// DASHBOARD.JS CORRIGIDO (SPA + F5)
-// ===============================
+// =====================================================
+// DASHBOARD.JS — 100% seguro para SPA + F5
+// sem variáveis duplicadas e sem erros
+// =====================================================
 
+// Evita múltiplas inicializações
+if (!window.__hc_dashboard_initialized) {
+    window.__hc_dashboard_initialized = true;
+}
+
+// Mantemos todas as instâncias para destruir depois
+window.HCCharts = {
+    donut1: null,
+    donut2: null,
+    donut3: null,
+    line: null
+};
+
+// =====================================================
+// FUNÇÃO PRINCIPAL — INICIALIZA OS GRÁFICOS
+// =====================================================
 function initDashboard() {
+    console.log("📊 initDashboard() — iniciando gráficos...");
 
-    // Evita gráficos duplicados ao abrir o dashboard várias vezes
-    if (window.pieChartInstance) window.pieChartInstance.destroy();
-    if (window.lineChartInstance) window.lineChartInstance.destroy();
+    // Se não existir elementos no DOM, sai
+    if (!document.getElementById("graficoLinha") &&
+        !document.getElementById("donut1")) {
+        console.warn("Dashboard não está no DOM ainda.");
+        return;
+    }
 
-    // ---------------------------
-    // GRÁFICO PIZZA
-    // ---------------------------
-    const elPie = document.getElementById('graficoPizza');
-    if (elPie) {
+    // -------------------------------
+    // 🔥 Destruir gráficos antigos
+    // -------------------------------
+    Object.keys(window.HCCharts).forEach(key => {
+        if (window.HCCharts[key]) {
+            window.HCCharts[key].destroy();
+            window.HCCharts[key] = null;
+        }
+    });
 
-        const ctxPie = elPie.getContext('2d');
+    // -------------------------------
+    // 🔥 Donuts (3 donuts principais)
+    // -------------------------------
+    if (typeof pieData === "object") {
+        const total = pieData.reduce((a,b)=>a+Number(b||0),0) || 1;
 
-        window.pieChartInstance = new Chart(ctxPie, {
-            type: 'doughnut',
+        const values = [
+            Math.round((pieData[0] || 0) / total * 100),
+            Math.round((pieData[1] || 0) / total * 100),
+            Math.round((pieData[2] || 0) / total * 100),
+        ];
+
+        const colors = [
+            "rgba(255,99,132,0.9)",
+            "rgba(34,197,94,0.9)",
+            "rgba(59,130,246,0.9)"
+        ];
+
+        ["donut1","donut2","donut3"].forEach((id, index) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+
+            const ctx = el.getContext("2d");
+            const restante = 100 - values[index];
+
+            window.HCCharts[id] = new Chart(ctx, {
+                type: "doughnut",
+                data: {
+                    datasets: [{
+                        data: [values[index], restante],
+                        backgroundColor: [colors[index], "rgba(0,0,0,0.08)"],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: "70%",
+                    plugins: { legend: { display: false } },
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        });
+    }
+
+    // -------------------------------
+    // 🔵 Gráfico de Linha
+    // -------------------------------
+    const lineCanvas = document.getElementById("graficoLinha");
+    if (lineCanvas) {
+        const ctx = lineCanvas.getContext("2d");
+        const grad = ctx.createLinearGradient(0,0,0,300);
+        grad.addColorStop(0, "rgba(59,130,246,0.30)");
+        grad.addColorStop(1, "rgba(59,130,246,0.00)");
+
+        window.HCCharts.line = new Chart(ctx, {
+            type: "line",
             data: {
-                labels: pieLabels ?? ['Pedidos', 'Outros', 'Receita'],
+                labels: lineLabels || [],
                 datasets: [{
-                    data: pieData ?? [60, 20, 20],
-                    borderWidth: 0,
-                    backgroundColor: [
-                        'rgba(255,99,132,0.85)',
-                        'rgba(34,197,94,0.85)',
-                        'rgba(59,130,246,0.85)'
-                    ],
-                    hoverOffset: 8
+                    label: "Vendas",
+                    data: lineData || [],
+                    borderColor: "rgba(59,130,246,1)",
+                    backgroundColor: grad,
+                    fill: true,
+                    tension: 0.35,
+                    pointRadius: 4
                 }]
             },
             options: {
-                cutout: '68%',
-                plugins: {
-                    legend: { display: true, position: 'bottom' },
-                    tooltip: { enabled: true }
+                plugins: { legend: { display: false }},
+                scales: {
+                    x: { grid: { display: false }},
+                    y: { beginAtZero: true }
                 },
                 responsive: true,
                 maintainAspectRatio: false
@@ -43,53 +119,49 @@ function initDashboard() {
         });
     }
 
-    // ---------------------------
-    // GRÁFICO DE LINHA
-    // ---------------------------
-    const elLine = document.getElementById('graficoLinha');
-    if (elLine) {
-
-        const ctxLine = elLine.getContext('2d');
-
-        const gradient = ctxLine.createLinearGradient(0, 0, 0, 300);
-        gradient.addColorStop(0, 'rgba(59,130,246,0.28)');
-        gradient.addColorStop(1, 'rgba(59,130,246,0.00)');
-
-        window.lineChartInstance = new Chart(ctxLine, {
-            type: 'line',
-            data: {
-                labels: lineLabels ?? ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-                datasets: [{
-                    label: 'Vendas',
-                    data: lineData ?? [120,150,135,170,200,180,210,190,230,240,260,280],
-                    fill: true,
-                    backgroundColor: gradient,
-                    borderColor: 'rgba(59,130,246,0.95)',
-                    tension: 0.35,
-                    pointRadius: 4,
-                    pointBackgroundColor: 'rgba(59,130,246,1)'
-                }]
-            },
-            options: {
-                plugins: {
-                    legend: { display: false },
-                    tooltip: { mode: 'index', intersect: false }
-                },
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: { grid: { display: false } },
-                    y: { 
-                        grid: { color: 'rgba(0,0,0,0.04)' },
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+    // -------------------------------
+    // 🛒 Listar “Mais Vendidos”
+    // -------------------------------
+    try {
+        const ul = document.querySelector(".top-sellers ul");
+        if (ul && Array.isArray(maisVendidos)) {
+            ul.innerHTML = "";
+            maisVendidos.forEach(prod => {
+                const img = prod.imagem || "uploads/placeholder.png";
+                ul.innerHTML += `
+                    <li>
+                        <img src="${img}">
+                        <div class="info">
+                            <div class="nome">${prod.nome}</div>
+                            <div class="meta">
+                                R$ ${parseFloat(prod.preco_venda).toFixed(2).replace('.',',')}
+                                — ${prod.total_vendido} vendidos
+                            </div>
+                        </div>
+                    </li>
+                `;
+            });
+        }
+    } catch (e) {
+        console.warn("Erro ao renderizar mais vendidos:", e);
     }
+
+    console.log("✅ Dashboard renderizado sem erros.");
 }
 
-// 🚀 Executa automaticamente se a página foi carregada via F5
-if (document.getElementById("graficoPizza")) {
-    initDashboard();
-}
+// =====================================================
+// EVENTOS SPA E F5
+// =====================================================
+
+// SPA → Página carregada dinamicamente
+document.addEventListener("dashboard-loaded", () => {
+    setTimeout(() => initDashboard(), 40);
+});
+
+// F5 → Página carregada diretamente
+document.addEventListener("DOMContentLoaded", () => {
+    if (document.getElementById("graficoLinha") ||
+        document.getElementById("donut1")) {
+        setTimeout(() => initDashboard(), 40);
+    }
+});

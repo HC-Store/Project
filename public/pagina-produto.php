@@ -59,8 +59,10 @@ $stImg->execute([$id]);
 $img = $stImg->fetchColumn();
 
 if (!empty($img)) {
-  $imagemPrincipal = $img;
+  // garante que a imagem sempre suba uma pasta corretamente
+  $imagemPrincipal = "../" . ltrim($img, "/");
 }
+
 
 /* =========================
    GALERIA COMPLETA
@@ -77,7 +79,9 @@ $stGal->execute([$id]);
 $lista = $stGal->fetchAll(PDO::FETCH_COLUMN);
 
 if ($lista) {
-  $imagens = $lista;
+  $imagens = array_map(function($img){
+    return "../" . ltrim($img, "/");
+  }, $lista);
 } else {
   // fallback para não quebrar layout
   $imagens = [
@@ -145,7 +149,8 @@ if (!empty($produto['categoria'])) {
   <link rel="stylesheet" href="../src/assets/css/pagina-produto.css"/>
   <script src="../src/assets/js/header-public.js" defer></script>
   <!-- JS da página -->
-  <script defer src="../src/assets/js/pagina-produto.js"></script>
+ <script defer src="../src/assets/js/pagina-produto.js"></script>
+
 </head>
 <body>
 
@@ -196,13 +201,22 @@ include_once("../src/includes/header-public.php");
 
             <!-- AÇÕES -->
             <div class="acoes">
-                <button class="btn-carrinho" id="btn-add-carrinho">Adicionar à Sacola</button>
-                <button class="btn-favorito" id="btn-add-favorito" aria-label="Favoritar">♥</button>
+       <div class="acoes">
+  <button class="btn-carrinho" id="btn-add-carrinho" data-id="<?= $produto['id'] ?>">
+    Adicionar à Sacola
+  </button>
+
+               <button class="btn-favorito" id="btn-add-favorito">♥</button>
+</div>
             </div>
 
-            <button class="btn-comprar" id="btn-comprar" data-id="<?= (int)$produto['id'] ?>">
-                COMPRAR
-            </button>
+        <form action="checkout.php" method="POST">
+  <input type="hidden" name="comprar_agora" value="<?= (int)$produto['id'] ?>">
+ <button class="btn-comprar" id="btn-comprar">
+  COMPRAR
+</button>
+</form>
+
 
             <!-- DESCRIÇÃO -->
             <h3>Sobre o produto</h3>
@@ -233,8 +247,8 @@ include_once("../src/includes/header-public.php");
                 <?php foreach ($relacionados as $r): ?>
                     <article class="card-produto">
                         <a href="pagina-produto.php?id=<?= (int)$r['id'] ?>" class="link-produto">
-                            <img src="<?= htmlspecialchars($r['imagem'] ?: '../src/assets/image/sem-foto.svg') ?>"
-                                 alt="<?= htmlspecialchars($r['nome']) ?>">
+                            <img src="<?= htmlspecialchars($r['imagem'] ? '../'.ltrim($r['imagem'],'/') : '../src/assets/image/sem-foto.svg') ?>">
+                                 
 
                             <h4><?= htmlspecialchars($r['nome']) ?></h4>
                             <p><strong>R$ <?= number_format($r['preco_venda'], 2, ',', '.') ?></strong></p>
@@ -322,6 +336,34 @@ include_once("../src/includes/header-public.php");
 <img src="../src/assets/image/img-pagamento.svg" alt="Formas de pagamento">
 </div>
 </footer>
+
+<script>
+document.getElementById("btn-add-carrinho").addEventListener("click", function () {
+
+  const produtoId = this.dataset.id;
+
+  fetch("cart_action.php", {
+    method: "POST",
+    body: new URLSearchParams({
+      produto_id: produtoId
+    })
+  })
+  .then(r => r.json())
+  .then(json => {
+    if (json.success) {
+      alert("Produto adicionado à sacola!");
+      location.reload();
+    } else {
+      alert(json.message);
+    }
+  })
+  .catch(() => alert("Erro ao adicionar produto."));
+});
+</script>
+
+
+ 
+
 
 
 </body>

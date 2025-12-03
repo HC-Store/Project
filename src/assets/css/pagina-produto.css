@@ -78,58 +78,67 @@ body {
   cursor: pointer;
 }
 /* BOTÕES – Ações do Produto */
+/* BOTÕES PRINCIPAIS DO PRODUTO */
 .acoes {
   display: flex;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .btn-carrinho {
   background: #000;
   color: #fff;
-  padding: 12px 22px;
-  border-radius: 6px;
-  font-weight: 600;
   border: none;
+  padding: 14px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 10px;
   cursor: pointer;
   transition: 0.3s;
+  min-width: 200px;
 }
+
 .btn-carrinho:hover {
-  background: #DAA520;
-  color: #000;
+  background: #111;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
 .btn-favorito {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  border: none;
   background: #000;
   color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 12px 20px;
   font-size: 20px;
   cursor: pointer;
   transition: 0.3s;
 }
+
 .btn-favorito:hover {
-  background: #DAA520;
-  color: #000;
+  background: crimson;
+  box-shadow: 0 0 10px rgba(220,20,60,0.5);
 }
 
 .btn-comprar {
   width: 100%;
-  background: #000;
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #000, #222);
   color: #fff;
-  padding: 14px;
-  border-radius: 6px;
-  font-weight: 700;
   border: none;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  margin: 10px 0 25px 0;
   transition: 0.3s;
 }
+
 .btn-comprar:hover {
-  background: #DAA520;
-  color: #000;
+  background: linear-gradient(90deg, #d4af37, #000);
+  box-shadow: 0 0 18px rgba(212,175,55,0.6);
 }
+
 
 
 /*DESCRIÇÃO */
