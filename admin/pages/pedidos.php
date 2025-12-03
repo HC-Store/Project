@@ -2,17 +2,7 @@
 
 <!-- ================== PHP CONEXÃO ================== -->
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "hcstore";
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erro ao conectar: " . $e->getMessage());
-}
+require_once __DIR__ . '/../../conexao.php';
 
 $pedidos = $pdo->query("SELECT * FROM pedidos ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
 ?>
