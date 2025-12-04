@@ -2,19 +2,31 @@
 
 <!-- ================== PHP CONEXÃO ================== -->
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db = "hcstore";
+require_once __DIR__ . '/../../conexao.php';
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8", $user, $pass);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Erro ao conectar: " . $e->getMessage());
-}
+$pedidos = $pdo->query("
+    SELECT 
+        p.id,
+        p.valor_total AS valor,
+        p.status,
+        p.criado_em,
 
-$pedidos = $pdo->query("SELECT * FROM pedidos ORDER BY id DESC")->fetchAll(PDO::FETCH_ASSOC);
+        u.nome AS cliente,
+
+        pg.metodo_pagamento AS pagamento,
+
+        (
+            SELECT pr.nome 
+            FROM pedido_itens pi 
+            JOIN produtos pr ON pr.id = pi.produto_id
+            WHERE pi.pedido_id = p.id LIMIT 1
+        ) AS produto
+
+    FROM pedidos p
+    LEFT JOIN usuarios u ON u.id = p.usuario_id
+    LEFT JOIN pagamentos pg ON pg.pedido_id = p.id
+    ORDER BY p.id DESC
+")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -208,7 +220,7 @@ td {
         <td><input type="checkbox"></td>
         <td><?= $p['produto'] ?></td>
         <td>#<?= $p['id'] ?></td>
-        <td><?= $p['data_pedido'] ?></td>
+        <td><?= $p['criado_em'] ?></td>
         <td><?= $p['pagamento'] ?></td>
         <td><?= $p['cliente'] ?></td>
         <td><span class="status <?= strtolower($p['status']) ?>"><?= ucfirst($p['status']) ?></span></td>
