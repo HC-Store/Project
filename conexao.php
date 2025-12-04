@@ -1,7 +1,7 @@
 <?php
 $host = "localhost";
 $usuario = "root";
-$senha = "";
+$senha = ""; // Sua senha aqui
 $banco = "hcstore";
 
 try {
