@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HG Store — Painel Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="">
+      <span class="logo"><img src="./img/HG STORE.png" alt="Logo da HG STORE"></span>
+    </div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-item active" id="nav-dashboard" onclick="goto('dashboard',this)">
+      <span class="nav-icon"></span>
+      <span>DASHBOARD</span>
+    </div>
+    <div class="nav-item" id="nav-produtos" onclick="goto('produtos',this)">
+      <span class="nav-icon"></span>
+      <span>TODOS OS PRODUTOS</span>
+    </div>
+    <div class="nav-item" id="nav-pedidos" onclick="goto('pedidos',this)">
+      <span class="nav-icon"></span>
+      <span>LISTA DE PEDIDOS</span>
+    </div>
+    <div class="nav-item" id="nav-usuarios" onclick="goto('usuarios',this)">
+      <span class="nav-icon"></span>
+      <span>USUÁRIOS</span>
+    </div>
+    <div class="nav-item" id="nav-adicionar" onclick="goto('adicionar',this)">
+      <span class="nav-icon"></span>
+      <span>ADICIONAR PRODUTO</span>
+    </div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="sidebar-avatar">AD</div>
+    <div class="sidebar-uname">Admin</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-bc" id="breadcrumb">Home &rsaquo;
+      <span>Dashboard</span>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-icon"><img src="./img/Search.png" alt="Lupa de pesquisa"></div>
+      <div class="notif-wrap">
+        <div class="topbar-icon"><img src="./img/notifications.png" alt="sino de notificações"></div>
+      <div class="notif-dot"></div>
+    </div>
+      <div class="admin-btn">
+        <div class="admin-dot">
+
+        </div>ADMIN ▾</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+  <!-- ══ DASHBOARD ══ -->
+  <div class="screen active" id="screen-dashboard">
+    <div class="page-header">
+      <div>
+        <div class="page-title">DASHBOARD</div>
+      </div>
+    </div>
+    <div class="dash-top">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Gráfico Geral</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <label style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text3);cursor:pointer">
+              <input type="checkbox" checked style="accent-color:var(--red)"> Porcentagem</label>
+            <label style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text3);cursor:pointer">
+              <input type="checkbox" style="accent-color:var(--text3)"> Mostrar Valor</label>
+            <span class="card-dots">⋮</span>
+          </div>
+        </div>
+        <div class="card-body"><div class="donut-row" id="donutRow"></div>
+      </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">Mais Vendidos</div>
+          <span class="card-dots">⋮</span>
+        </div>
+        <div style="padding:8px 14px" id="maisVendidos"></div>
+        <button class="relatorio-btn" onclick="goto('pedidos',document.getElementById('nav-pedidos'))">RELATÓRIO</button>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><div class="card-title">Vendas ao Mês</div>
+      <span class="card-dots">⋮</span>
+    </div>
+      <div id="areaChart" style="height:148px;padding:8px 16px 0;overflow:hidden"></div>
+      <div id="chartLabels" style="display:flex;justify-content:space-between;padding:4px 20px 10px;font-size:10px;color:var(--text3)"></div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Pedidos Recentes</div>
+        <span class="card-dots">⋮</span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" class="chk"></th>
+                <th>Produto</th>
+                <th>ID Pedido</th>
+                <th>Data</th>
+                <th>Nome do Cliente</th>
+                <th>Status</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+        <tbody id="recentBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TODOS OS PRODUTOS ══ -->
+  <div class="screen" id="screen-produtos">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Todos os Produtos</div>
+        <div class="breadcrumb">Home &rsaquo; 
+          <span>Todos os Produtos</span>
+        </div>
+      </div>
+      <button class="btn btn-gold" onclick="goto('adicionar',document.getElementById('nav-adicionar'))">ADICIONAR PRODUTO</button>
+    </div>
+    <div class="products-grid" id="prodGrid"></div>
+  </div>
+
+  <!-- ══ LISTA DE PEDIDOS ══ -->
+  <div class="screen" id="screen-pedidos">
+    <div class="page-header">
+      <div><div class="page-title">Lista de Pedidos</div>
+      <div class="breadcrumb">Home &rsaquo; 
+        <span>Lista de Pedidos</span>
+      </div>
+    </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+        <div class="date-badge">📅 Maio 16, 2026 — Julho 16, 2026</div>
+        <select class="status-select">
+          <option>Alterar status</option>
+          <option>Entregue</option>
+          <option>Cancelado</option>
+          <option>Pendente</option>
+        </select>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Compras Recentes</div>
+        <span class="card-dots">⋮</span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>
+                <input type="checkbox" class="chk"></th>
+                <th>Produto</th>
+                <th>ID Pedido</th>
+                <th>Data</th>
+                <th>Método de Pagamento</th>
+                <th>Nome Cliente</th>
+                <th>Status</th>
+                <th>Preço</th>
+              </tr>
+            </thead>
+        <tbody id="pedidosBody"></tbody>
+      </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+
+  <!-- ══ USUÁRIOS ══ -->
+  <div class="screen" id="screen-usuarios">
+    <div class="page-header">
+      <div>
+        <div class="page-title">USUÁRIOS CADASTRADOS</div>
+        <div class="breadcrumb">Home &rsaquo; 
+          <span>Usuários</span>
+        </div>
+      </div>
+      <button class="btn btn-gold" onclick="openUserModal(-1)"> NOVO USUÁRIO</button>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Usuários</div>
+        <span id="userCount" style="font-size:12px;color:var(--text3)"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>E-mail</th>
+              <th>Telefone</th>
+              <th>Método Pag.</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+        <tbody id="usersBody"></tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ADICIONAR PRODUTO ══ -->
+  <div class="screen" id="screen-adicionar">
+    <div class="page-header">
+      <div>
+        <div class="page-title">Adicionar Produto</div>
+      <div class="breadcrumb">Home &rsaquo; 
+        <span>Adicionar Produto</span>
+      </div>
+    </div>
+    </div>
+    <div class="form-grid-2">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">Nome do Produto</label>
+            <input class="form-input" id="p-nome" placeholder="Digite o nome aqui">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Descrição</label>
+            <textarea class="form-input form-textarea" id="p-desc" placeholder="Digite Descrição aqui"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Categoria</label>
+            <input class="form-input" id="p-cat" placeholder="Ex: Tênis, Corrida, Casual...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Marca</label>
+            <input class="form-input" id="p-marca" placeholder="Ex: Adidas, Nike...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tamanho — clique para selecionar</label>
+            <div class="size-grid" id="sizeGrid"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Número Estoque</label>
+              <input class="form-input" id="p-estnum" placeholder="Fox-3983">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Quantidade em Estoque</label>
+              <input class="form-input" id="p-estqt" placeholder="1258">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Preço de Venda</label>
+            <input class="form-input" id="p-preco" placeholder="R$450,00">
+          </div>
+          <div style="display:flex;gap:10px;margin-top:6px">
+            <button class="btn btn-gold" style="flex:1;justify-content:center;padding:11px" onclick="addProduct()">ADICIONAR</button>
+            <button class="btn btn-outline" style="flex:1;justify-content:center;padding:11px" onclick="goto('produtos',document.getElementById('nav-produtos'))">CANCELAR</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-body" style="text-align:center;padding:14px">
+            <div style="width:100%;height:168px;background:var(--surface2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:62px;border:1px solid var(--border);margin-bottom:8px">👕</div>
+            <div style="font-size:11px;color:var(--text3)">Imagem principal do produto</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><div class="card-title">Galeria de Produtos</div>
+        </div>
+          <div class="card-body">
+            <div class="upload-zone" onclick="alert('Selecionar imagem...')">
+              <div class="upload-icon">🖼️</div>
+              <div class="upload-text">Arraste sua imagem aqui, ou clique para buscar<br>
+                <span style="font-size:10px">Jpeg, png são permitidos</span>
+              </div>
+            </div>
+            <div class="file-list">
+              <div class="file-item">
+                <div class="file-thumb">👗</div>
+                <div class="file-info">
+                <div class="file-name">thumbnail.png</div>
+                <div class="file-bar">
+                  <div class="file-prog" style="width:100%"></div>
+                </div>
+              </div>
+              <div class="file-check">✔</div>
+            </div>
+              <div class="file-item">
+                <div class="file-thumb">👗</div>
+                <div class="file-info">
+                  <div class="file-name">thumbnail_2.png</div>
+                  <div class="file-bar">
+                    <div class="file-prog" style="width:100%"></div>
+                  </div>
+                </div>
+                <div class="file-check">✔</div>
+              </div>
+              <div class="file-item">
+                <div class="file-thumb">👗</div>
+                <div class="file-info">
+                  <div class="file-name">thumbnail_3.png</div>
+                  <div class="file-bar">
+                    <div class="file-prog" style="width:72%"></div>
+                  </div>
+                </div>
+                <div class="file-check" style="color:var(--text3)">⋯</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+</main>
+</div>
+
+<!-- MODAL USUÁRIO -->
+<div class="modal-overlay hidden" id="userModal">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="userModalTitle">Novo Usuário</span>
+      <span class="modal-close" onclick="closeModal('userModal')">✕</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nome Completo</label>
+      <input class="form-input" id="u-nome" placeholder="Ex: João Silva">
+    </div>
+    <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input class="form-input" id="u-email" placeholder="joao@email.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Telefone</label>
+      <input class="form-input" id="u-tel" placeholder="(11) 90000-0000">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Método de Pagamento</label>
+      <select class="form-select" id="u-metodo">
+        <option>Boleto</option>
+       <option>Pix</option>
+        <option>Cartão</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Status</label>
+      <select class="form-select" id="u-status">
+        <option>Entregue</option>
+        <option>Cancelado</option>
+        <option>Pendente</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('userModal')">Cancelar</button>
+      <button class="btn btn-gold" id="userSaveBtn" onclick="saveUser()">Salvar Usuário</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR PRODUTO -->
+<div class="modal-overlay hidden" id="prodModal">
+  <div class="modal modal-wide">
+    <div class="modal-title">
+      <span>Editar Produto</span>
+      span class="modal-close" onclick="closeModal('prodModal')">✕</span>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Nome</label>
+        <input class="form-input" id="ep-nome">
+      </div>
+      <div class="form-group">
+        label class="form-label">Categoria</label>
+        <input class="form-input" id="ep-cat">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Preço de Venda</label>
+        <input class="form-input" id="ep-preco">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Qtd. Estoque</label>
+        <input class="form-input" id="ep-estq">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tamanho — clique para selecionar</label>
+      <div class="size-grid" id="epSizeGrid"></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Descrição</label>
+      <textarea class="form-input form-textarea" id="ep-desc" style="min-height:60px"></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('prodModal')">Cancelar</button>
+      <button class="btn btn-gold" onclick="saveProd()">Salvar Alterações</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONFIRMAR EXCLUSÃO -->
+<div class="modal-overlay hidden" id="deleteModal">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-title">Excluir Produto?</div>
+    <div class="confirm-desc">Esta ação não pode ser desfeita. O produto será removido permanentemente.</div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="btn btn-outline" onclick="closeModal('deleteModal')">Cancelar</button>
+      <button class="btn btn-red" onclick="confirmDelete()">Sim, Excluir</button>
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
